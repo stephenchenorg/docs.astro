@@ -22,6 +22,12 @@ export default defineConfig({
         ],
       },
       {
+        text: '常用功能',
+        items: [
+          { text: '多語系', link: '/features/i18n' },
+        ],
+      },
+      {
         text: '模組',
         items: [
           { text: '圖片 (image)', link: '/modules/image' },
@@ -29,12 +35,6 @@ export default defineConfig({
           { text: '頁面 (page)', link: '/modules/page' },
           { text: '分頁 (pagination)', link: '/modules/pagination' },
           { text: '網址參數 (query-params)', link: '/modules/query-params' },
-        ],
-      },
-      {
-        text: '進階功能教學',
-        items: [
-          { text: '多語系', link: '/advanced/i18n' },
         ],
       },
     ],
