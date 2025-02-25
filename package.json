@@ -1,7 +1,13 @@
 {
+  "name": "stephenchenorg-astro-docs",
   "type": "module",
   "private": true,
-  "scripts": {},
-  "dependencies": {},
-  "devDependencies": {}
+  "scripts": {
+    "dev": "vitepress",
+    "build": "vitepress build",
+    "serve": "vitepress serve"
+  },
+  "devDependencies": {
+    "vitepress": "1.6.3"
+  }
 }

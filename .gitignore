@@ -10,12 +10,9 @@ lerna-debug.log*
 node_modules
 .DS_Store
 dist
-dist-ssr
-coverage
+cache
 *.local
-
-/cypress/videos/
-/cypress/screenshots/
+.temp
 
 # Editor directories and files
 .vscode/*
@@ -26,3 +23,6 @@ coverage
 *.njsproj
 *.sln
 *.sw?
+
+TODOs.md
+draft.md
