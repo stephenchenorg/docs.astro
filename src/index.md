@@ -7,11 +7,11 @@ hero:
   tagline: Astro 前端專案通用模組
   actions:
     - theme: brand
-      text: Markdown Examples
-      link: /markdown-examples
+      text: 快速開始
+      link: /getting-started
     - theme: alt
-      text: API Examples
-      link: /api-examples
+      text: 瀏覽模組
+      link: /modules/image
 
 features:
   - title: Feature A
