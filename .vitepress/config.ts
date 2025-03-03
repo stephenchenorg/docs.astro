@@ -51,5 +51,26 @@ export default defineConfig({
     socialLinks: [
       { icon: 'github', link: 'https://github.com/stephenchenorg/package.astro' },
     ],
+
+    editLink: {
+      pattern: 'https://github.com/stephenchenorg/docs.astro/edit/main/src/:path',
+      text: '在 GitHub 上編輯此頁',
+    },
+
+    lastUpdated: {
+      text: '最後更新於',
+      formatOptions: {
+        dateStyle: 'short',
+        timeStyle: 'medium'
+      }
+    },
+
+    langMenuLabel: '多語系',
+    returnToTopLabel: '回到頂端',
+    sidebarMenuLabel: '選單',
+    darkModeSwitchLabel: '主題',
+    lightModeSwitchTitle: '切換到淺色模式',
+    darkModeSwitchTitle: '切換到深色模式',
+    skipToContentLabel: '跳到內容',
   },
 })
