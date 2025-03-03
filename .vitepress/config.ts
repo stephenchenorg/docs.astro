@@ -3,7 +3,7 @@ import { defineConfig } from 'vitepress'
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
   title: 'Stephenchenorg Astro',
-  description: '前端通用套件',
+  description: '前端開發指南',
   srcDir: 'src',
 
   themeConfig: {

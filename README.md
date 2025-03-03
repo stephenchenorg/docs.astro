@@ -1,4 +1,4 @@
-# Stephenchenorg Astro 前端通用套件文件
+# Stephenchenorg Astro 前端開發指南
 
 ## 安裝
 

@@ -3,8 +3,8 @@ layout: home
 
 hero:
   name: Stephenchenorg Astro
-  text: 前端通用套件
-  tagline: Astro 前端專案通用模組
+  text: 前端開發指南
+  tagline: 前端開發指南 & 通用模組集合
   actions:
     - theme: brand
       text: 快速開始
