@@ -49,7 +49,7 @@ export default defineConfig({
     ],
 
     socialLinks: [
-      { icon: 'github', link: 'https://github.com/stephenchenorg/astro' },
+      { icon: 'github', link: 'https://github.com/stephenchenorg/package.astro' },
     ],
   },
 })
