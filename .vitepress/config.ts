@@ -10,7 +10,7 @@ export default defineConfig({
     // https://vitepress.dev/reference/default-theme-config
     nav: [
       { text: '首頁', link: '/' },
-      { text: '快速開始', link: '/getting-started' },
+      { text: '指南', link: '/guide/page' },
       { text: '模組', link: '/modules/image' },
     ],
 
@@ -18,13 +18,22 @@ export default defineConfig({
       {
         text: '簡介',
         items: [
-          { text: '快速開始', link: '/getting-started' },
+          { text: '快速開始', link: '/guide/getting-started' },
+          { text: '部署', link: '/guide/deploy' },
         ],
       },
       {
-        text: '常用功能',
+        text: '指南',
         items: [
-          { text: '多語系', link: '/features/i18n' },
+          { text: '頁面', link: '/guide/page' },
+          { text: 'GraphQL API', link: '/guide/graphql-api' },
+          { text: '連結', link: '/guide/link' },
+          { text: 'CSS & JS', link: '/guide/css-js' },
+          { text: '圖片', link: '/guide/image' },
+          { text: '分頁列表', link: '/guide/list-page' },
+          { text: '內頁', link: '/guide/inner-page' },
+          { text: '多語系', link: '/guide/i18n' },
+          { text: '過濾器', link: '/guide/filter' },
         ],
       },
       {

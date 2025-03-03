@@ -8,7 +8,7 @@ hero:
   actions:
     - theme: brand
       text: 快速開始
-      link: /getting-started
+      link: /guide/getting-started
     - theme: alt
       text: 瀏覽模組
       link: /modules/image
