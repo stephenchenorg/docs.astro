@@ -7,3 +7,24 @@ Astro 本身支援多種網址路徑書寫樣式，但 Netlify 僅支援強制�
 * ❌ `/aaa` (路徑對應 `aaa.astro`)
 * ✅ `/aaa/bbb/` (路徑對應 `aaa/bbb.astro`)
 * ✅ `/aaa/bbb/` (路徑對應 `aaa/bbb/index.astro`)
+
+## 絕對路徑設定
+
+如果有已經取得網站網域，可以透過 `astro.config.ts` 設定絕對路徑：
+
+```ts
+export default defineConfig({
+  site: 'http://localhost:4321',
+  // ...
+})
+```
+
+然後就可以使用 `Astro.site` 來取得網站網址。
+
+通常是在 SEO 標籤中會使用到，比如 `canonical` 或 `og:url`：
+
+```jsx
+<link rel="canonical" href={new URL(Astro.url.pathname, Astro.site)} />
+
+<meta property="og:url" content={new URL(Astro.url.pathname, Astro.site)} />
+```
