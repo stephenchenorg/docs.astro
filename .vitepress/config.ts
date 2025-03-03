@@ -19,6 +19,7 @@ export default defineConfig({
         text: '簡介',
         items: [
           { text: '快速開始', link: '/guide/getting-started' },
+          { text: '編輯器', link: '/guide/editor' },
           { text: '部署', link: '/guide/deploy' },
         ],
       },
