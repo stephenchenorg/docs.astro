@@ -4,13 +4,40 @@ Astro 的頁面是以 `.astro` 為副檔名的檔案，檔名對應到網址路�
 
 ## 無 API 的頁面
 
-*TODO*
+在建立一個 Stephenchenorg Astro 新專案後，開啟 `src/pages/index.astro` 是一個沒有串接 API 的範例頁面。
 
-```astro
+註解中的是串接 API 的程式碼，如果沒有串接 API 的話可以刪除。如果沒有串接 API，就可以直接使用 `companySetting` 這個物件，這個物件是用來設定公司資訊的。
+
+::: code-group
+
+```astro [index.astro (清除註解)]
+---
+import Layout from '@/layouts/Layout.astro'
+import { seoMeta } from '@stephenchenorg/astro/page'
+import { createCompanySetting } from '@stephenchenorg/astro/company-setting'
+
+const companySetting = createCompanySetting({
+  name: 'Astro',
+  description: 'Astro is a modern web development platform.',
+  logo: 'https//example.com/logo.png',
+})
+
+const meta = seoMeta({
+  title: 'Astro',
+})
+---
+
+<Layout meta={meta} companySetting={companySetting}>
+  <h1>Astro</h1>
+</Layout>
+```
+
+```astro [index.astro (原始)]
 ---
 import Layout from '@/layouts/Layout.astro'
 // import { gql, graphQLAPI } from '@/api'
 import { seoMeta } from '@stephenchenorg/astro/page'
+import { createCompanySetting } from '@stephenchenorg/astro/company-setting'
 // import { companySettingFields } from '@stephenchenorg/astro/company-setting'
 // import type { DataCompanySetting } from '@stephenchenorg/astro/company-setting'
 
@@ -27,23 +54,11 @@ import { seoMeta } from '@stephenchenorg/astro/page'
 //   ${companySettingFields}
 // `)
 
-const companySetting = {
-  lang: 'zh_TW',
+const companySetting = createCompanySetting({
   name: 'Astro',
-  description: '',
-  logo: '',
-  address_1: '',
-  address_2: '',
-  email_1: '',
-  email_2: '',
-  fb_link: '',
-  ig_link: '',
-  line_link: '',
-  phone_1: '',
-  phone_2: '',
-  twitter_link: '',
-  threads_link: '',
-}
+  description: 'Astro is a modern web development platform.',
+  logo: 'https//example.com/logo.png',
+})
 
 const meta = seoMeta({
   title: 'Astro',
@@ -54,6 +69,8 @@ const meta = seoMeta({
   <h1>Astro</h1>
 </Layout>
 ```
+
+:::
 
 ## 串接 API 的頁面
 
@@ -67,7 +84,6 @@ const meta = seoMeta({
 ---
 import Layout from '@/layouts/Layout.astro'
 import { gql, graphQLAPI } from '@/api'
-import { seoMeta } from '@stephenchenorg/astro/page'
 import { companySettingFields } from '@stephenchenorg/astro/company-setting'
 import type { DataCompanySetting } from '@stephenchenorg/astro/company-setting'
 

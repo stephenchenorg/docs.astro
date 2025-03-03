@@ -11,4 +11,4 @@ Stephenchenorg 使用 Netlify 部署前端網站。部署相關設定都記錄�
   NODE_VERSION = "22"
 ```
 
-基本上只需將 GitHub 帳號與 Netlify 帳號連結，並且選擇要部署的專案即可完成部署。
+基本上只需從 Netlify 連結 GitHub 帳號，並且選擇要部署的專案即可完成部署。
