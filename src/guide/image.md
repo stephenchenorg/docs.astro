@@ -37,6 +37,6 @@ const data = await graphQLAPI<Data>(gql`
   <Image src={data.product.image.desktop} alt="Image alt" />
   <Image src={data.product.image.mobile} alt="Image alt" />
 
-  <ResponsiveImage {...data.product.image.image} alt="Responsive image alt" />
+  <ResponsiveImage {...data.product.image} alt="Responsive image alt" />
 </Layout>
 ```
