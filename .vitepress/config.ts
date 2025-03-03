@@ -28,7 +28,8 @@ export default defineConfig({
         items: [
           { text: '頁面', link: '/guide/page' },
           { text: 'GraphQL API', link: '/guide/graphql-api' },
-          { text: '連結', link: '/guide/link' },
+          { text: '路徑', link: '/guide/path' },
+          { text: 'Layout', link: '/guide/layout' },
           { text: 'CSS & JS', link: '/guide/css-js' },
           { text: '圖片', link: '/guide/image' },
           { text: '分頁列表', link: '/guide/list-page' },
