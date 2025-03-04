@@ -8,16 +8,19 @@ hero:
   actions:
     - theme: brand
       text: 快速開始
-      link: /guide/getting-started
+      link: /instruction/getting-started
     - theme: alt
-      text: 瀏覽模組
-      link: /modules/image
+      text: 基本
+      link: /basic/structure
+    - theme: alt
+      text: 進階
+      link: /advanced/dynamic-field
 
 features:
   - title: Astro
-    details: 使用 Astro 開發靜態網站
+    details: 使用 Astro 開發靜態網站，支援 React、Vue、Svelte 等框架。
   - title: GraphQL
-    details: 使用 GraphQL 串接 API
+    details: 使用 GraphQL 串接 API，提供更彈性的方式來取得資料。
   - title: 多項模組
-    details: 提供多項通用模組，包含 SEO、圖片、分頁等
+    details: 提供多項通用模組，包含 SEO 標籤設定、圖片、分頁等。
 ---

@@ -1,4 +1,4 @@
-# 分頁 (pagination)
+# 分頁
 
 *TODO*
 
