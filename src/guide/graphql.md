@@ -41,7 +41,7 @@ const data = await graphQLAPI<Data>(gql`
 
 * `Data` 介面是用來定義請求成功回傳物件的型別。
 * `graphQLAPI()` 是一個用來發送 GraphQL 請求的異步函式，可以將 `Data` 傳入，這樣在回傳後的 `data` 就會是 `Data` 型別。
-* `gql` 是用來建立 GraphQL Query 的 Tagged templates，讓編輯器可以顯示語法高亮。
+* `gql` 是用來建立 GraphQL Query 的 Tagged templates，讓編輯器可以顯示語法突顯。
 
 因此我們就可以知道說，`query` 內是具體的請求內容，在確定頁面需料之後，就可以去 GraphQL Playground 中測試，然後將請求內容複製進來，並更新對應的型別定義在 `Data` 中。
 

@@ -17,9 +17,9 @@
 有時候更改了 CSS 或 JS 檔案，但是瀏覽器還是會使用舊的快取，這時候可以在連結的 URL 後面加上一個版本號字串，瀏覽器就會重新請求新的檔案：
 
 ```html
-<link rel="stylesheet" href="/css/style.css?20250302v1">
+<link rel="stylesheet" href="/css/style.css?20240506v1">
 
-<script is:inline src="/js/script.js?20250302v1"></script>
+<script is:inline src="/js/script.js?20240506v1"></script>
 ```
 
 約定的版本號格式是 `YYYYMMDDvN`，其中 `N` 是版本號，每次更新時設定為 `1`，當日有多次更新時才會遞增。
@@ -28,9 +28,9 @@
 當然實際上這只是一個約定，為了可以有一個固定的更新方式，實際上你可以使用任何你喜歡的版本號格式。
 :::
 
-## 內聯 CSS & JS
+## 頁面 CSS & JS
 
-有時候需為當前頁面加入一些 CSS 或 JS，可以使用內聯的方式：
+有時候需為當前頁面加入一些 CSS 或 JS：
 
 ```html
 <style>
@@ -42,7 +42,7 @@
 </script>
 ```
 
-但此種方式會將 CSS 和 JS 進行編譯處理、最佳化等，CSS 會被使用 `scoped` 的方式來處理，只會套用在當前元件內的 HTML 標籤；而 JS 會被當作模組來處理，且會進行 TypeScript 的型別檢查。
+此種方式會將 CSS 和 JS 進行編譯處理、最佳化等，CSS 會被限定只能作用在當前元件的 HTML 標籤。而 JS 會被當作模組來處理，且會進行 TypeScript 的型別檢查。
 
 ## 全局 CSS
 

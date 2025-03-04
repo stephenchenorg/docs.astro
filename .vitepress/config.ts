@@ -10,7 +10,7 @@ export default defineConfig({
     // https://vitepress.dev/reference/default-theme-config
     nav: [
       { text: '首頁', link: '/' },
-      { text: '指南', link: '/guide/page' },
+      { text: '指南', link: '/guide/structure' },
       { text: '模組', link: '/modules/image' },
     ],
 
@@ -26,7 +26,8 @@ export default defineConfig({
       {
         text: '指南',
         items: [
-          { text: '路徑', link: '/guide/path' },
+          { text: '資料夾結構', link: '/guide/structure' },
+          { text: '路徑', link: '/guide/url' },
           { text: '頁面', link: '/guide/page' },
           { text: 'GraphQL', link: '/guide/graphql' },
           { text: 'Layout', link: '/guide/layout' },

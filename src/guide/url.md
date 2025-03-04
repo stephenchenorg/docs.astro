@@ -1,4 +1,6 @@
-# 路徑
+# 網址
+
+## 網址路徑
 
 Astro 本身支援多種網址路徑書寫樣式，但 Netlify 僅支援強制增加尾隨斜線，因此統一使用該格式來撰寫頁面路徑。
 
@@ -8,9 +10,9 @@ Astro 本身支援多種網址路徑書寫樣式，但 Netlify 僅支援強制�
 * ✅ `/aaa/bbb/` (路徑對應 `aaa/bbb.astro`)
 * ✅ `/aaa/bbb/` (路徑對應 `aaa/bbb/index.astro`)
 
-## 絕對路徑設定
+## 完整網址設定
 
-如果有已經取得網站網域，可以透過 `astro.config.ts` 設定絕對路徑：
+如果有已經取得網站網域，可以透過 `astro.config.ts` 設定完整網址：
 
 ```ts
 export default defineConfig({
