@@ -67,16 +67,11 @@ export default defineConfig({
       }
     },
 
-    langMenuLabel: '多語系',
-    returnToTopLabel: '回到頂端',
-    sidebarMenuLabel: '選單',
-    darkModeSwitchLabel: '主題',
-    lightModeSwitchTitle: '切換到淺色模式',
-    darkModeSwitchTitle: '切換到深色模式',
-    skipToContentLabel: '跳到內容',
-
     search: {
       provider: 'local',
+      options: {
+        detailedView: true,
+      },
     },
   },
 })
