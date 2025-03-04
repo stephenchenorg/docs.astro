@@ -26,9 +26,9 @@ export default defineConfig({
       {
         text: '指南',
         items: [
-          { text: '頁面', link: '/guide/page' },
-          { text: 'GraphQL API', link: '/guide/graphql-api' },
           { text: '路徑', link: '/guide/path' },
+          { text: '頁面', link: '/guide/page' },
+          { text: 'GraphQL', link: '/guide/graphql' },
           { text: 'Layout', link: '/guide/layout' },
           { text: 'CSS & JS', link: '/guide/css-js' },
           { text: '圖片', link: '/guide/image' },

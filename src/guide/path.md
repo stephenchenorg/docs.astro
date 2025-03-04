@@ -23,7 +23,7 @@ export default defineConfig({
 
 通常是在 SEO 標籤中會使用到，比如 `canonical` 或 `og:url`：
 
-```jsx
+```astro
 <link rel="canonical" href={new URL(Astro.url.pathname, Astro.site)} />
 
 <meta property="og:url" content={new URL(Astro.url.pathname, Astro.site)} />
