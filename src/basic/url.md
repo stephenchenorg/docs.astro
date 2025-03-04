@@ -12,16 +12,16 @@ Astro 本身支援多種網址路徑書寫樣式，但 Netlify 僅支援強制�
 
 ## 完整網址設定
 
-如果有已經取得網站網域，可以透過 `astro.config.ts` 設定完整網址：
+如果有已經取得上線使用的域名，就可以透過 `astro.config.ts` 來設定：
 
 ```ts
 export default defineConfig({
-  site: 'http://localhost:4321',
+  site: 'https://example.org',
   // ...
 })
 ```
 
-然後就可以使用 `Astro.site` 來取得網站網址。
+然後就能使用 `Astro.site` 來取得網站網址了。
 
 通常是在 SEO 標籤中會使用到，比如 `canonical` 或 `og:url`：
 
