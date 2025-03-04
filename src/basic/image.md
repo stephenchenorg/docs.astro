@@ -2,7 +2,7 @@
 
 介紹如何使用圖片元件。
 
-## 圖片欄位
+## 圖片欄位格式
 
 目前 GraphQL 後端有定義以下圖片類型可以使用：
 
@@ -21,7 +21,7 @@ GraphQL 後端欄位都有不同的類型定義，需要依照查詢的欄位來
 | **mobile** | 手機版圖片 |
 | ~~**mobile_blur**~~ | ~~手機版模糊圖片 *(目前不使用)*~~ |
 
-## 請求和展示 API 的圖片欄位
+## 請求 API 的圖片欄位
 
 比如要使用 Image 圖片，就引入 `imageFields` Fragment，並在查詢時使用 `...ImageFields` 來帶入圖片欄位。以及要在 `Data` 介面中定義圖片欄位的型別為 `ImageSource`。
 
@@ -69,4 +69,27 @@ const data = await graphQLAPI<Data>(gql`
 </div>
 ```
 
-而更多關於 `<Image>` 和 `<ResponsiveImage>` 的使用方式，可以參考 [圖片 (image) 模組](../modules/image.md)。
+## 圖片元件
+
+以下是 `<Image>` 元件的可用屬性：
+
+```astro
+<Image
+  class="image"
+  src="https//example.com/logo.png"
+  alt="Image alt"
+/>
+```
+
+以下是 `<ResponsiveImage>` 元件的可用屬性：
+
+```astro
+<ResponsiveImage
+  class="image"
+  desktop="https//example.com/desktop.png"
+  desktopBlur="https//example.com/desktop.png"
+  mobile="https//example.com/mobile.png"
+  mobileBlur="https//example.com/mobile.png"
+  alt="Responsive image alt"
+/>
+```

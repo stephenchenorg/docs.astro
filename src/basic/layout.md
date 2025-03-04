@@ -1,6 +1,6 @@
 # Layout
 
-`<Layout>` 元件是定義了每個頁面中的共用部分，包含完整的 HTML 結構、CSS 樣式、JavaScript 程式碼等。
+Layout 是 Astro 元件，定義了每個頁面中的共用結構，包含完整的 HTML 結構、CSS 樣式、JavaScript 程式碼等。
 
 ## Layout 參數
 
@@ -25,7 +25,7 @@ import Layout from '@/layouts/Layout.astro'
 
 ## 串接 API
 
-`meta` 串接 API 的方式可以參考 [頁面 (page) 模組](../modules/page.md) 中的說明。
+`meta` 串接 API 的方式可以參考 [SEO Metadata](seo.md) 和 [客製頁面](../advanced/custom-page.md) 的說明。
 
 `companySetting` 串接 API 的方式在上篇 [GraphQL](graphql.md) 中已經有說明過了。
 
@@ -52,6 +52,20 @@ const meta = seoMeta({
 
 <Layout meta={meta} companySetting={companySetting}>
   <h1>Astro</h1>
+</Layout>
+```
+
+## 插入 Head 內容
+
+`<Layout>` 元件中有一個 `head` 的 `slot`，可以將頁面自定標籤內容插入到 `<head>` 中：
+
+```astro
+<Layout>
+  <Fragment slot="head">
+    <script is:inline src="/js/swiper.min.js"></script>
+  </Fragment>
+
+  <!-- ... -->
 </Layout>
 ```
 

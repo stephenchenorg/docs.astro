@@ -85,7 +85,7 @@ const data = await graphQLAPI<Data>(gql`
 這裡需要注意命名規則上有所不同，`${companySettingFields}` 是一個 JavaScript 變數，開頭使用小寫，而 `...CompanySettingFields` 是一個 GraphQL Fragment，開頭使用大寫。
 
 ::: details CompanySettingFields Fragment 定義
-CompanySettingFields Fragment 是定義在 `@stephenchenorg/astro` 套件的 `src/company-setting/fragments.ts`：
+CompanySettingFields Fragment 定義在 `@stephenchenorg/astro` 套件的 `src/company-setting/fragments.ts`：
 
 ```ts
 import { gql } from 'graphql-tag'
@@ -146,3 +146,21 @@ const meta = seoMeta({
   <h1>Astro</h1>
 </Layout>
 ```
+
+## 渲染資料
+
+從後端傳來的資料中，通常預設是純字串，可以直接顯示：
+
+```astro
+{data.article.description}
+```
+
+但如果瀏覽器有看到直接輸出 `<br />` 的文字，就需要改成用 HTML 顯示，通常是因為後台使用 `<textarea>` 多行輸入，這時候就需要使用 `set:html` 來顯示：
+
+```astro
+<Fragment set:html={data.article.description} />
+```
+
+::: info
+基本上只有文章內容會完全使用 HTML，其它欄位都最多只會出現 `<br />` 這個 HTML 標籤，除 `<br />` 之外的 HTML 標籤都會經過轉換編碼。
+:::
