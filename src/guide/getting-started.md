@@ -12,7 +12,7 @@
 初始化 Astro 專案：
 
 ```bash
-npx degit stephenchenorg/stater.astro --mode=git my-project
+npx degit stephenchenorg/starter.astro --mode=git my-project
 ```
 
 進入專案目錄：
