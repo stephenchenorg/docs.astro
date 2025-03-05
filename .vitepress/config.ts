@@ -11,7 +11,7 @@ export default defineConfig({
     nav: [
       { text: '快速開始', link: '/instruction/getting-started' },
       { text: '基本', link: '/basic/structure' },
-      { text: '進階', link: '/advanced/dynamic-field' },
+      { text: '進階', link: '/advanced/list-page' },
     ],
 
     sidebar: [

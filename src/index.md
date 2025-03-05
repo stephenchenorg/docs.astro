@@ -14,7 +14,7 @@ hero:
       link: /basic/structure
     - theme: alt
       text: 進階
-      link: /advanced/dynamic-field
+      link: /advanced/list-page
 
 features:
   - title: Astro
