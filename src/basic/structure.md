@@ -66,7 +66,7 @@ tsconfig.json
 
 ## .editorconfig
 
-這個檔案是用來定義 EditorConfig 格式程式碼的規則。
+這個檔案是用來定義 EditorConfig 格式化程式碼的規則。
 
 ## .env
 

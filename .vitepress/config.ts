@@ -27,7 +27,7 @@ export default defineConfig({
         text: '基本',
         items: [
           { text: '資料夾結構', link: '/basic/structure' },
-          { text: '路徑', link: '/basic/url' },
+          { text: '網址', link: '/basic/url' },
           { text: '頁面', link: '/basic/page' },
           { text: 'GraphQL', link: '/basic/graphql' },
           { text: 'Layout', link: '/basic/layout' },
