@@ -122,7 +122,7 @@ const data = await graphQLAPI<Data>(gql`
         created_at
       }
     }
-    companySetting(lang: $lang) {
+    companySetting {
       ...CompanySettingFields
     }
   }
