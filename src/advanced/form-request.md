@@ -1,6 +1,6 @@
 # 表單請求
 
-在 Astro 中，我們可以透過 JavaScript 來處理表單的提交，並透過 Fetch API 來發送表單資料到後端 API。
+介紹如何處理提交表單，並透過 Fetch API 來發送表單資料到後端 API。
 
 ## 聯絡我們表單
 
@@ -26,7 +26,7 @@
 </div>
 ```
 
-然後新增一個 JavaScript 來處理表單的提交：
+然後新增一段 JavaScript 來處理提交表單：
 
 ```astro
 <script>
@@ -64,7 +64,9 @@ contactForm.addEventListener('submit', function (e) {
 </script>
 ```
 
-現在在 `src/pages/api/contact.ts` 新增一個 POST 的路由，接收到剛才的表單資料後，再透過 Fetch API 來發送到後端 API，而這邊打的 API 就會是真正的後端，需要根據情況自行調整：
+HTTP 狀態主要處理 200、422、500 三種狀況，分別代表成功、表單驗證錯誤、伺服器錯誤，其中最關鍵的是 422 狀態，需要將後端的表單欄位錯誤訊息顯示出來。
+
+然後現在在 `src/pages/api/contact.ts` 新增一個 POST 的路由，接收到剛才的表單資料後，再透過 Fetch API 來發送到後端 API，而這邊打的 API 就會是真正的後端，需要根據情況自行調整：
 
 ```ts {9-14,16}
 import type { APIRoute } from 'astro'

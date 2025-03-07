@@ -4,9 +4,7 @@
 
 ## 分頁器
 
-先看分頁器的使用方式。首先我們需要建立一個分頁器元件，用於切換列表頁數。
-
-新增 `src/components/Pagination.astro`，引入 `usePagination()` 函數，然後把自訂的 HTML 更新到 `Pagination` 元件中：
+先看分頁器的部分，首先我們需要一個分頁器元件，用於切換列表頁數。確認專案中有沒有 `src/components/Pagination.astro` 元件，如果沒有就新增一個：
 
 ```astro
 ---
@@ -75,7 +73,7 @@ const {
 在這個範例的 `articles` 可以傳入參數，`page` 代表當前頁數，`per_page` 代表每頁筆數，`sort_by` 代表排序方式 (可以使用正序 `asc` 和倒序 `desc`)，`sort_column` 代表排序欄位。除了 `page` 是從 Astro URL 參數取得的 `currentPage`，其他參數都可以設定固定值。
 
 ::: tip
-如果想要依照建立時間排序，通常會想要將 `sort_column` 設定為 `created_at`，不過其實設定為 `id` 也可以達到相同效果，而且可以提升資料庫查詢的效能。
+如果想要依照建立時間排序，通常會想要將 `sort_column` 設定為 `created_at`，不過其實設定為 `id` 也可以達到相同效果，目的是為了提升資料庫查詢的效能。
 :::
 
 型別的部分就可以使用 `Paginator` 來定義分頁列表資料類型了。
