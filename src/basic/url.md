@@ -7,6 +7,7 @@ Astro 本身支援多種網址路徑書寫樣式，但 Netlify 僅支援強制�
 * ✅ `/` (路徑對應 `index.astro`)
 * ✅ `/aaa/` (路徑對應 `aaa.astro`)
 * ❌ `/aaa` (路徑對應 `aaa.astro`)
+* ❌ `/aaa.html` (路徑對應 `aaa.astro`)
 * ✅ `/aaa/bbb/` (路徑對應 `aaa/bbb.astro`)
 * ✅ `/aaa/bbb/` (路徑對應 `aaa/bbb/index.astro`)
 
