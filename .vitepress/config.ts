@@ -17,6 +17,7 @@ export default defineConfig({
     sidebar: [
       {
         text: '簡介',
+        collapsed: false,
         items: [
           { text: '快速開始', link: '/instruction/getting-started' },
           { text: '編輯器', link: '/instruction/editor' },
@@ -25,6 +26,7 @@ export default defineConfig({
       },
       {
         text: '基本',
+        collapsed: false,
         items: [
           { text: '資料夾結構', link: '/basic/structure' },
           { text: '網址', link: '/basic/url' },
@@ -39,6 +41,7 @@ export default defineConfig({
       },
       {
         text: '進階',
+        collapsed: false,
         items: [
           { text: '分頁列表', link: '/advanced/list-page' },
           { text: '內頁', link: '/advanced/inner-page' },
