@@ -8,13 +8,13 @@ hero:
   actions:
     - theme: brand
       text: 快速開始
-      link: /instruction/getting-started
+      link: /guide/getting-started
     - theme: alt
       text: 基本
-      link: /basic/structure
+      link: /guide/basic/structure
     - theme: alt
       text: 進階
-      link: /advanced/list-page
+      link: /guide/advanced/list-page
 
 features:
   - title: Astro
