@@ -68,9 +68,9 @@ HTTP 狀態主要處理 200、422、500 三種狀況，分別代表成功、表�
 
 現在就可以在 `src/pages/api/contact.ts` 新增一個 POST 的路由，接收到剛才的表單資料後，再透過 Fetch API 來發送到後端 API，而這邊打的 API 就會是真正的後端。
 
-主要需要調整的是表單欄位的部分，因為每個專案需要的欄位都不一樣，因此在這邊來做必填欄位的驗證，需要注意的是，`contactUs` 這個 API 一定需要 `name` 和 `title` 這兩個欄位為必填：
+主要需要調整的是表單欄位的部分，因為每個專案需要的欄位都不一樣，因此在這邊來做必填欄位的驗證，需要注意的是，`contactUs` 這個 API 一定需要 `name` 和 `title` 這兩個欄位為必填，以及檔案最多只能一次上傳 5 個：
 
-```ts {7-10,14-17,25-39}
+```ts {7-11,15-18,25-41}
 import type { APIRoute } from 'astro'
 import { gql, graphQLAPI, GraphQLValidationError } from '@/api'
 
@@ -81,6 +81,7 @@ export const POST: APIRoute = async ({ request }) => {
   const email = data.get('email') || ''
   const title = data.get('subject') || ''
   const content = data.get('message') || ''
+  const files = [data.get('file') as File | null].filter(Boolean)
 
   const errors: Record<string, string[]> = {}
 
@@ -100,15 +101,17 @@ export const POST: APIRoute = async ({ request }) => {
         $email: String
         $title: String
         $content: String
+        $files: [Upload!]!
       ) {
         contactUs(
           name: $name
           email: $email
           title: $title
           content: $content
+          files: $files
         )
       }
-    `, { name, email, title, content })
+    `, { name, email, title, content, files })
   } catch (e) {
     if (e instanceof GraphQLValidationError) {
       return new Response(JSON.stringify({
