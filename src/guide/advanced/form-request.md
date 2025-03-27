@@ -66,40 +66,58 @@ contactForm.addEventListener('submit', function (e) {
 
 HTTP 狀態主要處理 200、422、500 三種狀況，分別代表成功、表單驗證錯誤、伺服器錯誤，其中最關鍵的是 422 狀態，需要將後端的表單欄位錯誤訊息顯示出來。
 
-然後現在在 `src/pages/api/contact.ts` 新增一個 POST 的路由，接收到剛才的表單資料後，再透過 Fetch API 來發送到後端 API，而這邊打的 API 就會是真正的後端，需要根據情況自行調整：
+現在就可以在 `src/pages/api/contact.ts` 新增一個 POST 的路由，接收到剛才的表單資料後，再透過 Fetch API 來發送到後端 API，而這邊打的 API 就會是真正的後端。
 
-```ts {9-14,16}
+主要需要調整的是表單欄位的部分，因為每個專案需要的欄位都不一樣，因此在這邊來做必填欄位的驗證，需要注意的是，`contactUs` 這個 API 一定需要 `name` 和 `title` 這兩個欄位為必填：
+
+```ts {7-10,14-17,25-39}
 import type { APIRoute } from 'astro'
-import { getLocale } from 'i18n:astro'
-import siteConfig from '@/site.config'
+import { gql, graphQLAPI, GraphQLValidationError } from '@/api'
 
 export const POST: APIRoute = async ({ request }) => {
   const data = await request.formData()
 
-  const formdata = new FormData()
-  formdata.append('name', data.get('name') || '')
-  formdata.append('email', data.get('email') || '')
-  formdata.append('title', data.get('subject') || '')
-  formdata.append('content', data.get('message') || '')
-  const file = data.get('file')
-  if (file) formdata.append('files[]', file)
+  const name = data.get('name') || ''
+  const email = data.get('email') || ''
+  const title = data.get('subject') || ''
+  const content = data.get('message') || ''
 
-  const response = await fetch(`${import.meta.env.API_BASE_URL.replace(/\/$/, '')}/api/contacts`, {
-    method: 'POST',
-    headers: {
-      Accept: 'application/json',
-      'Content-Language': 'zh_TW',
-      'Time-Zone': 'Asia/Taipei',
-    },
-    body: formdata,
-  })
-  const result = await response.json()
+  const errors: Record<string, string[]> = {}
 
-  if (response.status === 422) {
-    return new Response(JSON.stringify({
-      errors: result.errors,
-    }), { status: 422 })
-  } else if (response.status >= 400 && response.status < 600) {
+  if (!name || typeof name !== 'string') errors.name = ['姓名 是必填']
+  if (!email || typeof email !== 'string') errors.email = ['電子郵件 是必填']
+  if (!title || typeof title !== 'string') errors.title = ['標題 是必填']
+  if (!content || typeof content !== 'string') errors.content = ['內容 是必填']
+
+  if (Object.keys(errors).length) {
+    return new Response(JSON.stringify({ errors }), { status: 422 })
+  }
+
+  try {
+    await graphQLAPI(gql`
+      mutation (
+        $name: String
+        $email: String
+        $title: String
+        $content: String
+      ) {
+        contactUs(
+          name: $name
+          email: $email
+          title: $title
+          content: $content
+        )
+      }
+    `, { name, email, title, content })
+  } catch (e) {
+    if (e instanceof GraphQLValidationError) {
+      return new Response(JSON.stringify({
+        errors: e.errors,
+      }), { status: 422 })
+    }
+
+    console.error(e)
+
     return new Response(JSON.stringify({
       message: 'server error',
     }), { status: 500 })
@@ -116,3 +134,105 @@ export const POST: APIRoute = async ({ request }) => {
 :::
 
 而之所以要多開一個 API 路由的原因，一方面是為了保護後端 API 的安全，另一方面是為了避免 CORS 問題。
+
+## 表單多語系設定
+
+> [!TIP]
+>
+> 如果你的網站有多語系需求，需要先參考 [多語系](/guide/advanced/i18n) 來設定。
+
+因為表單後端的 API 不是放在多語系的路由下，所以需要在表單中加入一個 `input` 來傳遞當前語系，這樣後端 API 就可以正確設定語系了：
+
+```astro
+---
+import { getLocale } from 'i18n:astro'
+---
+
+<form method="post" id="contact-form" action="/api/contact/">
+  <input type="hidden" name="lang" value={getLocale().replace('-', '_')} />
+  <!-- ... -->
+</form>
+```
+
+然後在 POST 路由中處理語系：
+
+```ts {2,12,16-19,29-31}
+import type { APIRoute } from 'astro'
+import { t } from 'i18n:astro'
+import { gql, graphQLAPI, GraphQLValidationError } from '@/api'
+
+export const POST: APIRoute = async ({ request }) => {
+  const data = await request.formData()
+
+  const name = data.get('name') || ''
+  const email = data.get('email') || ''
+  const title = data.get('subject') || ''
+  const content = data.get('message') || ''
+  const lang = data.get('lang') as string
+
+  const errors: Record<string, string[]> = {}
+
+  if (!name || typeof name !== 'string') errors.name = [t('validation:name.required')]
+  if (!email || typeof email !== 'string') errors.email = [t('validation:email.required')]
+  if (!title || typeof title !== 'string') errors.title = [t('validation:title.required')]
+  if (!content || typeof content !== 'string') errors.content = [t('validation:content.required')]
+
+  if (Object.keys(errors).length) {
+    return new Response(JSON.stringify({ errors }), { status: 422 })
+  }
+
+  try {
+    await graphQLAPI(gql`
+      ...
+    `, { name, email, title, content }, {
+      headers: {
+        'Content-Language': lang,
+      },
+    })
+  } catch (e) {
+  // ...
+  }
+
+  // ...
+}
+```
+
+以及對應的多語系檔案：
+
+::: code-group
+
+``` json [src/locales/zh-TW/validation.json]
+{
+  "name": {
+    "required": "姓名 是必填"
+  },
+  "email": {
+    "required": "電子信箱 是必填"
+  },
+  "title": {
+    "required": "標題 是必填"
+  },
+  "content": {
+    "required": "內容 是必填"
+  }
+}
+```
+
+``` json [src/locales/en/validation.json]
+{
+  "name": {
+    "required": "The name field is required."
+  },
+  "email": {
+    "required": "The email field is required."
+  },
+  "title": {
+    "required": "The title field is required."
+  },
+  "content": {
+    "required": "The content field is required."
+  }
+}
+```
+
+:::
