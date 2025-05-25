@@ -156,21 +156,23 @@ const data = await graphQLAPI<Data>(gql`
   ${imageFields}
   ${companySettingFields}
 `, {
-  page: params.page,
-  type: params.type,
-  search: params.search,
-  category: params.category,
-  priceFrom: isDefaultPrice ? null : params.priceFrom,
-  priceTo: isDefaultPrice ? null : params.priceTo,
-  tags: params.tags.length ? params.tags : null,
-  sortBy: {
-    latest: 'desc',
-    oldest: 'asc',
-  }[params.sort],
-  sortColumn: {
-    latest: 'id',
-    oldest: 'id',
-  }[params.sort],
+  variables: {
+    page: params.page,
+    type: params.type,
+    search: params.search,
+    category: params.category,
+    priceFrom: isDefaultPrice ? null : params.priceFrom,
+    priceTo: isDefaultPrice ? null : params.priceTo,
+    tags: params.tags.length ? params.tags : null,
+    sortBy: {
+      latest: 'desc',
+      oldest: 'asc',
+    }[params.sort],
+    sortColumn: {
+      latest: 'id',
+      oldest: 'id',
+    }[params.sort],
+  },
 })
 ```
 

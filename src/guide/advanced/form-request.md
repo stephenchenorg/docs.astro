@@ -111,7 +111,7 @@ export const POST: APIRoute = async ({ request }) => {
           files: $files
         )
       }
-    `, { name, email, title, content, files })
+    `, { variables: { name, email, title, content, files } })
   } catch (e) {
     if (e instanceof GraphQLValidationError) {
       return new Response(JSON.stringify({
@@ -187,13 +187,16 @@ export const POST: APIRoute = async ({ request }) => {
   try {
     await graphQLAPI(gql`
       ...
-    `, { name, email, title, content }, {
-      headers: {
-        'Content-Language': lang,
+    `, {
+      variables: { name, email, title, content },
+      fetchOptions: {
+        headers: {
+          'Content-Language': lang,
+        },
       },
     })
   } catch (e) {
-  // ...
+    // ...
   }
 
   // ...

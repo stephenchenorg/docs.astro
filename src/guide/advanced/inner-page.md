@@ -93,7 +93,7 @@ const data = await graphQLAPI<Data>(gql`
   ${coverFields}
   ${seoMetaFields('Article')}
   ${companySettingFields}
-`, { slug })
+`, { variables: { slug } })
 
 const meta = seoMeta({
   title: data.article.title,

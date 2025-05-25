@@ -57,6 +57,7 @@ export default defineConfig({
               { text: '內頁', link: 'advanced/inner-page' },
               { text: '客製頁面', link: 'advanced/custom-page' },
               { text: '表單請求', link: 'advanced/form-request' },
+              { text: 'GraphQL 全局設定', link: 'advanced/graphql-global-options' },
               { text: '過濾器', link: 'advanced/filter' },
               { text: '多語系', link: 'advanced/i18n' },
             ],

@@ -126,7 +126,7 @@ const data = await graphQLAPI<Data>(gql`
   }
   ${coverFields}
   ${companySettingFields}
-`, { page: currentPage })
+`, { variables: { page: currentPage } })
 ```
 
 然後前端就可以使用 `data.articles.data` 輸出列表，並使用分頁器元件來切換頁數了：
