@@ -2,14 +2,14 @@
 
 ## 網址路徑
 
-Astro 本身支援多種網址路徑書寫樣式，但 Netlify 僅支援強制增加尾隨斜線，因此統一使用該格式來撰寫頁面路徑。
+網址路徑書寫樣統一使用無尾隨斜線的格式。
 
 * ✅ `/` (路徑對應 `index.astro`)
-* ✅ `/aaa/` (路徑對應 `aaa.astro`)
-* ❌ `/aaa` (路徑對應 `aaa.astro`)
+* ✅ `/aaa` (路徑對應 `aaa.astro`)
+* ❌ `/aaa/` (路徑對應 `aaa.astro`)
 * ❌ `/aaa.html` (路徑對應 `aaa.astro`)
-* ✅ `/aaa/bbb/` (路徑對應 `aaa/bbb.astro`)
-* ✅ `/aaa/bbb/` (路徑對應 `aaa/bbb/index.astro`)
+* ✅ `/aaa/bbb` (路徑對應 `aaa/bbb.astro`)
+* ✅ `/aaa/bbb` (路徑對應 `aaa/bbb/index.astro`)
 
 ## 完整網址設定
 
@@ -30,4 +30,18 @@ export default defineConfig({
 <link rel="canonical" href={new URL(Astro.url.pathname, Astro.site)} />
 
 <meta property="og:url" content={new URL(Astro.url.pathname, Astro.site)} />
+```
+
+## Prerender 網址設定
+
+Astro 會在 Prerender 預先渲染靜態網站生成時，將網址路徑轉換成 `.html` 結尾的格式，因此需要處理網址路徑的 `.html` 結尾：
+
+```astro
+---
+const pathname = Astro.url.pathname.replace(/\.html$/, '')
+---
+
+<link rel="canonical" href={new URL(pathname, Astro.site)} />
+
+<meta property="og:url" content={new URL(pathname, Astro.site)} />
 ```
