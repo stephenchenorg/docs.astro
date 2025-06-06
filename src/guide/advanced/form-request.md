@@ -91,7 +91,12 @@ export const POST: APIRoute = async ({ request }) => {
   if (!content || typeof content !== 'string') errors.content = ['內容 是必填']
 
   if (Object.keys(errors).length) {
-    return new Response(JSON.stringify({ errors }), { status: 422 })
+    return new Response(JSON.stringify({
+      errors,
+    }), {
+      status: 422,
+      headers: { 'Content-Type': 'application/json' },
+    })
   }
 
   try {
@@ -112,23 +117,32 @@ export const POST: APIRoute = async ({ request }) => {
         )
       }
     `, { variables: { name, email, title, content, files } })
+
+    return new Response(JSON.stringify({
+      message: 'success',
+    }), {
+      status: 200,
+      headers: { 'Content-Type': 'application/json' },
+    })
   } catch (e) {
     if (e instanceof GraphQLValidationError) {
       return new Response(JSON.stringify({
         errors: e.errors,
-      }), { status: 422 })
+      }), {
+        status: 422,
+        headers: { 'Content-Type': 'application/json' },
+      })
     }
 
     console.error(e)
 
     return new Response(JSON.stringify({
       message: 'server error',
-    }), { status: 500 })
+    }), {
+      status: 500,
+      headers: { 'Content-Type': 'application/json' },
+    })
   }
-
-  return new Response(JSON.stringify({
-    message: 'success',
-  }), { status: 200 })
 }
 ```
 
@@ -181,7 +195,12 @@ export const POST: APIRoute = async ({ request }) => {
   if (!content || typeof content !== 'string') errors.content = [t('validation:content.required')]
 
   if (Object.keys(errors).length) {
-    return new Response(JSON.stringify({ errors }), { status: 422 })
+    return new Response(JSON.stringify({
+      errors,
+    }), {
+      status: 422,
+      headers: { 'Content-Type': 'application/json' },
+    })
   }
 
   try {
@@ -195,11 +214,11 @@ export const POST: APIRoute = async ({ request }) => {
         },
       },
     })
+
+    // ...
   } catch (e) {
     // ...
   }
-
-  // ...
 }
 ```
 
