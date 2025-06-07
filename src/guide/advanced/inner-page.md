@@ -112,12 +112,12 @@ const meta = seoMeta({
       <Fragment set:html={data.article.content} />
     </div>
     {data.article.prev && (
-      <a href={`/articles/${data.article.prev.slug}/`}>
+      <a href={`/articles/${data.article.prev.slug}`}>
         &larr; {data.article.prev.title}
       </a>
     )}
     {data.article.next && (
-      <a href={`/articles/${data.article.next.slug}/`}>
+      <a href={`/articles/${data.article.next.slug}`}>
         {data.article.next.title} &rarr;
       </a>
     )}
@@ -127,12 +127,12 @@ const meta = seoMeta({
   <ul>
     {data.recentlyArticles.data.map(article => (
       <li>
-        <a href={`/articles/${article.slug}/`} title={article.title}>
+        <a href={`/articles/${article.slug}`} title={article.title}>
           <ResponsiveImage {...article.cover} alt={article.title} title={article.title} />
         </a>
         <div>
           <p>{formatDate(article.created_at)}</p>
-          <a href={`/articles/${article.slug}/`}>{article.title}</a>
+          <a href={`/articles/${article.slug}`}>{article.title}</a>
         </div>
       </li>
     ))}

@@ -136,17 +136,17 @@ const data = await graphQLAPI<Data>(gql`
   <div class="list">
     {data.articles.data.map(article => (
       <div class="list-item">
-        <a href={`/articles/${article.slug}/`}>
+        <a href={`/articles/${article.slug}`}>
           <ResponsiveImage class="list-image" {...article.cover} />
         </a>
         <h2>
-          <a href={`/articles/${article.slug}/`)}>{article.title}<a>
+          <a href={`/articles/${article.slug}`}>{article.title}<a>
         </h2>
         <ul>
           <li>{formatDate(article.created_at)}</li>
         </ul>
         <div set:html={article.description}></div>
-        <a href={`/articles/${article.slug}/`}>
+        <a href={`/articles/${article.slug}`}>
           Read More
         </a>
       </div>
