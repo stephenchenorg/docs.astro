@@ -4,18 +4,34 @@
 
 ## 分頁器
 
-先看分頁器的部分，首先我們需要一個分頁器元件，用於切換列表頁數。確認專案中有沒有 `src/components/Pagination.astro` 元件，如果沒有就新增一個：
+先看分頁器的部分，首先我們需要一個分頁器元件，用於切換列表頁數。確認專案中有沒有 `src/components/Pagination.vue` 元件，如果沒有就新增一個：
 
-```astro
----
-import { usePagination } from '@stephenchenorg/astro/pagination'
+```vue
+<template>
+  <div v-if="showPagination">
+    <a v-if="canFirst" :href="firstUrl">First</a>
+    <a v-if="canPrev" :href="prevUrl">Previous</a>
+    <template v-for="page in items" :key="page">
+      <span v-if="page === currentPage">{{ page }}</span>
+      <a v-else :href="getUrl(page)">{{ page }}</a>
+    </template>
+    <a v-if="canNext" :href="nextUrl">Next</a>
+    <a v-if="canLast" :href="lastUrl">Last</a>
+  </div>
+</template>
 
-interface Props {
+<script setup lang="ts">
+import { usePagination } from '@stephenchenorg/astro/pagination-vue'
+
+const props = withDefaults(defineProps<{
   total: number
   perPage?: number
   visiblePages?: number
   currentPage?: number
-}
+  url: string
+}>(), {
+  currentPage: 1,
+})
 
 const {
   items,
@@ -31,39 +47,36 @@ const {
   lastUrl,
   getUrl,
 } = usePagination({
-  total: Astro.props.total,
-  perPage: Astro.props.perPage,
-  visiblePages: Astro.props.visiblePages,
-  currentPage: Astro.props.currentPage || Number(Astro.url.searchParams.get('page')) || 1,
-  url: Astro.request.url,
+  total: props.total,
+  perPage: props.perPage,
+  visiblePages: props.visiblePages,
+  currentPage: props.currentPage,
+  url: props.url,
 })
----
-
-{showPagination && (
-  <div>
-    {canFirst && <a href={firstUrl}>First</a>}
-    {canPrev && <a href={prevUrl}>Previous</a>}
-    {items.map(page =>
-      page === currentPage
-        ? <span>{page}</span>
-        : <a href={getUrl(page)}>{page}</a>
-    )}
-    {canNext && <a href={nextUrl}>Next</a>}
-    {canLast && <a href={lastUrl}>Last</a>}
-  </div>
-)}
+</script>
 ```
 
 接著在列表頁中引入分頁器元件，並傳入總筆數和每頁筆數：
 
 ```astro
-<Pagination total={32} perPage={10} />
+<Pagination
+  total={32}
+  perPage={10}
+  currentPage={Number(Astro.url.searchParams.get('page')) || 1}
+  url={Astro.request.url}
+/>
 ```
 
-也可以設定顯示的頁數按鈕數量：
+也可以設定顯示的數字按鈕數量：
 
-```astro
-<Pagination total={32} perPage={10} visiblePages={7} />
+```astro {4}
+<Pagination
+  total={32}
+  perPage={10}
+  visiblePages={7}
+  currentPage={Number(Astro.url.searchParams.get('page')) || 1}
+  url={Astro.request.url}
+/>
 ```
 
 ## 取得分頁列表資料
@@ -82,7 +95,7 @@ const {
 
 ```ts
 import Layout from '@/layouts/Layout.astro'
-import Pagination from '@/components/Pagination.astro'
+import Pagination from '@/components/Pagination.vue'
 import { ResponsiveImage } from '@stephenchenorg/astro/image'
 import type { ImageSource } from '@stephenchenorg/astro/image'
 import type { Paginator } from '@stephenchenorg/astro/pagination'
@@ -153,6 +166,11 @@ const data = await graphQLAPI<Data>(gql`
     ))}
   </div>
 
-  <Pagination total={data.articles.total} perPage={data.articles.per_page} />
+  <Pagination
+    total={data.articles.total}
+    perPage={data.articles.per_page}
+    currentPage={Number(Astro.url.searchParams.get('page')) || 1}
+    url={Astro.request.url}
+  />
 </Layout>
 ```
