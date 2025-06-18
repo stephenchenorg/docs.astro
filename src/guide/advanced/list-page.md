@@ -8,7 +8,7 @@
 
 ```vue
 <template>
-  <div v-if="showPagination">
+  <div v-if="showPagination" :class="props.class">
     <a v-if="canFirst" :href="firstUrl">First</a>
     <a v-if="canPrev" :href="prevUrl">Previous</a>
     <template v-for="page in items" :key="page">
@@ -21,6 +21,7 @@
 </template>
 
 <script setup lang="ts">
+import type { HTMLAttributes } from 'vue'
 import { usePagination } from '@stephenchenorg/astro/pagination-vue'
 
 const props = withDefaults(defineProps<{
@@ -29,6 +30,7 @@ const props = withDefaults(defineProps<{
   visiblePages?: number
   currentPage?: number
   url: string
+  class?: HTMLAttributes['class']
 }>(), {
   currentPage: 1,
 })
