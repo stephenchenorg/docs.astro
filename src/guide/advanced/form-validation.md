@@ -85,7 +85,7 @@ import { FormField } from '@stephenchenorg/astro/form-validator'
 
 ## 包裝表單欄位
 
-如果需要重複使用表單欄位，可以將欄位包裝成一個元件，這樣可以更方便地管理欄位驗證規則和錯誤訊息。比如可以包裝一個 `<FormTextField>` 元件：
+如果需要重複使用表單欄位，可以將欄位包裝成一個元件，這樣可以更方便地管理欄位驗證規則和錯誤訊息，這邊使用 `<FormTextField>` 元件來做為範例：
 
 ```vue
 <template>
@@ -109,6 +109,7 @@ import { FormField } from '@stephenchenorg/astro/form-validator'
 </template>
 
 <script setup lang="ts">
+import type { Rule } from '@stephenchenorg/astro/form-validator'
 import { FormField } from '@stephenchenorg/astro/form-validator'
 
 defineOptions({
@@ -118,6 +119,7 @@ defineOptions({
 const props = defineProps<{
   id: string
   label: string
+  rules?: Rule[]
 }>()
 
 const modelValue = defineModel<string>({
