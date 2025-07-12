@@ -60,6 +60,7 @@ export default defineConfig({
               { text: '表單請求', link: 'advanced/form-request' },
               { text: 'GraphQL 全局設定', link: 'advanced/graphql-global-options' },
               { text: '過濾器', link: 'advanced/filter' },
+              { text: '商品多規格選擇器', link: 'advanced/product-variant' },
               { text: '多語系', link: 'advanced/i18n' },
             ],
           },
