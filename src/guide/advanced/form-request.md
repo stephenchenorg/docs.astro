@@ -70,7 +70,7 @@ HTTP 狀態主要處理 200、422、500 三種狀況，分別代表成功、表�
 
 主要需要調整的是表單欄位的部分，因為每個專案需要的欄位都不一樣，因此在這邊來做必填欄位的驗證，需要注意的是，`contactUs` 這個 API 一定需要 `name` 和 `title` 這兩個欄位為必填，以及檔案最多只能一次上傳 5 個：
 
-```ts {7-11,15-18,25-41}
+```ts {7-11,15-18,30-46}
 import type { APIRoute } from 'astro'
 import { gql, graphQLAPI, GraphQLValidationError } from '@/api'
 
@@ -173,7 +173,7 @@ import { getLocale } from 'i18n:astro'
 
 然後在 POST 路由中處理語系：
 
-```ts {2,12,16-19,29-31}
+```ts {2,12,16-19,36-38}
 import type { APIRoute } from 'astro'
 import { t } from 'i18n:astro'
 import { gql, graphQLAPI, GraphQLValidationError } from '@/api'
