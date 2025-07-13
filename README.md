@@ -1,5 +1,7 @@
 # Stephenchenorg Astro 前端開發指南
 
+前往 [stephenchenorg-astro.netlify.app](https://stephenchenorg-astro.netlify.app/) 查看說明文件。
+
 ## 安裝
 
 ```bash
