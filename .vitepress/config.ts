@@ -31,6 +31,7 @@ export default defineConfig({
             collapsed: false,
             items: [
               { text: '快速開始', link: 'getting-started' },
+              { text: '專案指令', link: 'project-scripts' },
               { text: '編輯器', link: 'editor' },
               { text: '部署', link: 'deploy' },
             ],
