@@ -2,7 +2,11 @@
 
 介紹如何處理提交表單，並透過 Fetch API 來發送表單資料到後端 API。
 
-## 聯絡我們表單
+## HTML 表單請求
+
+在 Astro 中提交表單可以使用 HTML 的 `<form>` 元素來發送資料，這裡會介紹如何處理表單提交、驗證以及錯誤處理。
+
+### Astro 中的表單提交
 
 這裡用聯絡我們表單來做示範，首先在 `src/pages/contact.astro` 中新增一個表單，注意一下這裡的 `action` 是指向 Astro 的 API 路由，等下會新增：
 
@@ -65,6 +69,8 @@ contactForm.addEventListener('submit', function (e) {
 ```
 
 HTTP 狀態主要處理 200、422、500 三種狀況，分別代表成功、表單驗證錯誤、伺服器錯誤，其中最關鍵的是 422 狀態，需要將後端的表單欄位錯誤訊息顯示出來。
+
+### Astro API 路由
 
 現在就可以在 `src/pages/api/contact.ts` 新增一個 POST 的路由，接收到剛才的表單資料後，再透過 Fetch API 來發送到後端 API，而這邊打的 API 就會是真正的後端。
 
@@ -151,6 +157,182 @@ export const POST: APIRoute = async ({ request }) => {
 :::
 
 而之所以要多開一個 API 路由的原因，一方面是為了保護後端 API 的安全，另一方面是為了避免 CORS 問題。
+
+### Vue 中的表單提交
+
+在 Vue 中使用表單驗證和提交，可以使用 `@stephenchenorg/astro/form-validator` 這個套件來處理表單驗證。如果驗證成功，就會提交表單到後端 API。
+
+```vue
+<template>
+  <FormValidatorProvider ref="formValidatorProvider" :errors>
+    <form
+      action="/api/auth/login"
+      method="post"
+      @submit="handleSubmit"
+    >
+      ...
+    </form>
+  </FormValidatorProvider>
+</template>
+
+<script setup lang="ts">
+import type { FormErrors, FormValidatorProviderExposed } from '@stephenchenorg/astro/form-validator'
+import type { HTMLAttributes } from 'vue'
+import { FormValidatorProvider } from '@stephenchenorg/astro/form-validator'
+import { reactive, useTemplateRef } from 'vue'
+
+const props = withDefaults(defineProps<{
+  values?: Record<string, any>
+  errors?: FormErrors
+}>(), {
+  values: () => ({}),
+  errors: () => ({}),
+})
+
+const formValidatorProvider = useTemplateRef<FormValidatorProviderExposed>('formValidatorProvider')
+
+const form = reactive({
+  email: props.values.email || '',
+  password: '',
+})
+
+function handleSubmit(event: Event) {
+  // 處理前端驗證
+  const formValidator = formValidatorProvider.value!.formValidator()
+  if (!formValidator.validate(form)) {
+    event.preventDefault()
+  }
+}
+</script>
+```
+
+## AJAX 表單請求
+
+在 Vue 中使用 AJAX 提交表單，可以使用 `fetch` API 來發送表單資料到後端 API，並處理回應。
+
+### Vue 中的 AJAX 表單提交
+
+這邊使用登入表單來做示範，在 `src/components/LoginForm.vue` 中新增一個表單：
+
+```vue
+<template>
+  <FormValidatorProvider ref="formValidatorProvider" :errors>
+    <form @submit.prevent="handleSubmit">
+      ...
+    </form>
+  </FormValidatorProvider>
+</template>
+
+<script setup lang="ts">
+import type { FormErrors, FormValidatorProviderExposed } from '@stephenchenorg/astro/form-validator'
+import { FormValidatorProvider } from '@stephenchenorg/astro/form-validator'
+import { reactive, useTemplateRef } from 'vue'
+
+const formValidatorProvider = useTemplateRef<FormValidatorProviderExposed>('formValidatorProvider')
+
+const form = reactive({
+  email: '',
+  password: '',
+})
+
+const errors = ref({}) as Ref<FormErrors>
+
+async function handleSubmit(event: Event) {
+  const formValidator = formValidatorProvider.value!.formValidator()
+  if (!formValidator.validate(form)) {
+    event.preventDefault()
+  }
+
+  try {
+    await fetch('/api/auth/login', {
+      method: 'POST',
+      body: JSON.stringify({
+        email: form.email,
+        password: form.password,
+      }),
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
+
+    form.email = ''
+    form.password = ''
+  } catch (error) {
+    if (error instanceof FetchError && error.status === 422) {
+      errors.value = error.data.errors || {}
+    } else {
+      console.error('Unexpected error:', error)
+    }
+  } finally {
+    isLoading.value = false
+  }
+}
+</script>
+```
+
+### AJAX 請求 API 路由
+
+然後在 `src/pages/api/auth/login.ts` 中新增一個 POST 的路由，接收到剛才的表單資料後，再透過 Fetch API 來發送到後端 API：
+
+```ts
+import type { APIRoute } from 'astro'
+import type { ApiResponse } from '@/types'
+import { FetchError } from 'ofetch'
+import { apiFetch } from '@/api/backend'
+
+export interface ResetPasswordRequest {
+  old_password: string
+  password: string
+  password_confirmation: string
+}
+
+export const PUT: APIRoute = async context => {
+  try {
+    const { request } = context
+
+    const form = await request.json()
+
+    const { data } = await apiFetch<ApiResponse<any>>('/api/v1/auth/login', {
+      method: 'PUT',
+      body: {
+        email: form.email,
+        password: form.password,
+      },
+      Astro: context,
+    })
+
+    return new Response(JSON.stringify({
+      message: 'Password reset successfully',
+      data,
+    }), {
+      status: 200,
+      headers: { 'Content-Type': 'application/json' },
+    })
+  } catch (e) {
+    if (e instanceof FetchError) {
+      if (e.status === 422) {
+        const errors = { ...e.data?.data }
+
+        return new Response(JSON.stringify({
+          errors,
+        }), {
+          status: e.status,
+          headers: { 'Content-Type': 'application/json' },
+        })
+      }
+    }
+
+    console.error(e)
+
+    return new Response(JSON.stringify({
+      message: e,
+    }), {
+      status: 500,
+      headers: { 'Content-Type': 'application/json' },
+    })
+  }
+}
+```
 
 ## 表單多語系設定
 
