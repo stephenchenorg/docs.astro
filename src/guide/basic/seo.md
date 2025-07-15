@@ -67,14 +67,14 @@ export const seoMetaFields = (dummyClass: string) => gql(`
 
 ```astro {6-7,12,27,34,38-42,45}
 ---
+import type { ImageSource } from '@stephenchenorg/astro/image'
+import type { PageMeta } from '@stephenchenorg/astro/page'
+import type { DataCompanySetting } from '@stephenchenorg/astro/company-setting'
 import Layout from '@/layouts/Layout.astro'
 import { gql, graphQLAPI } from '@/api'
 import { imageFields } from '@stephenchenorg/astro/image'
-import type { ImageSource } from '@stephenchenorg/astro/image'
 import { seoMeta } from '@stephenchenorg/astro/page'
-import type { PageMeta } from '@stephenchenorg/astro/page'
 import { companySettingFields } from '@stephenchenorg/astro/company-setting'
-import type { DataCompanySetting } from '@stephenchenorg/astro/company-setting'
 
 interface Data extends DataCompanySetting {
   post: PageMeta & {

@@ -10,13 +10,13 @@
 
 ```astro
 ---
+import type { DataPage } from '@stephenchenorg/astro/page'
+import type { DataCompanySetting } from '@stephenchenorg/astro/company-setting'
 import Layout from '@/layouts/Layout.astro'
 import { gql, graphQLAPI } from '@/api'
 import { imageFields } from '@stephenchenorg/astro/image'
 import { pageFields } from '@stephenchenorg/astro/page'
-import type { DataPage } from '@stephenchenorg/astro/page'
 import { companySettingFields } from '@stephenchenorg/astro/company-setting'
-import type { DataCompanySetting } from '@stephenchenorg/astro/company-setting'
 
 interface Data extends DataPage, DataCompanySetting {
   //

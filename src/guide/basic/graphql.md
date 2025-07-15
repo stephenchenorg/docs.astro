@@ -55,8 +55,8 @@ const data = await graphQLAPI<Data>(gql`
 import { gql, graphQLAPI } from '@/api'
 
 // 1. 引入公司設定的 Fragment 和型別
-import { companySettingFields } from '@stephenchenorg/astro/company-setting'
 import type { DataCompanySetting } from '@stephenchenorg/astro/company-setting'
+import { companySettingFields } from '@stephenchenorg/astro/company-setting'
 
 interface Data extends DataCompanySetting {
   //
@@ -118,11 +118,11 @@ export const companySettingFields = gql`
 
 ```astro
 ---
+import type { DataCompanySetting } from '@stephenchenorg/astro/company-setting'
 import Layout from '@/layouts/Layout.astro'
 import { gql, graphQLAPI } from '@/api'
 import { seoMeta } from '@stephenchenorg/astro/page'
 import { companySettingFields } from '@stephenchenorg/astro/company-setting'
-import type { DataCompanySetting } from '@stephenchenorg/astro/company-setting'
 
 interface Data extends DataCompanySetting {
   //

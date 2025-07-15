@@ -210,8 +210,8 @@ const data = await graphQLAPI<Data>(gql`
 
 ```astro
 ---
-import { queryParamsUrl } from '@stephenchenorg/astro/query-params'
 import type { UrlConfig } from '@stephenchenorg/astro/query-params'
+import { queryParamsUrl } from '@stephenchenorg/astro/query-params'
 
 interface Props {
   value: string | null
@@ -271,9 +271,9 @@ export interface ProductCategoryTreeItemNullable {
 
 ```astro
 ---
-import FilterCategoryTreeItem from './FilterCategoryTreeItem.astro'
 import type { UrlConfig } from '@stephenchenorg/astro/query-params'
 import type { ProductCategoryTreeItem } from '@/types'
+import FilterCategoryTreeItem from './FilterCategoryTreeItem.astro'
 
 interface Props {
   value: ProductCategoryTreeItem['id'] | null
@@ -352,9 +352,9 @@ function visitCategory(li: Element): boolean {
 
 ```astro
 ---
-import { queryParamsUrl } from '@stephenchenorg/astro/query-params'
 import type { UrlConfig } from '@stephenchenorg/astro/query-params'
 import type { ProductCategoryTreeItemNullable } from '@/types'
+import { queryParamsUrl } from '@stephenchenorg/astro/query-params'
 
 interface Props {
   value: ProductCategoryTreeItemNullable['id']
@@ -396,8 +396,8 @@ const { value, category, urlConfig } = Astro.props
 
 ```astro
 ---
-import { queryParamsUrl } from '@stephenchenorg/astro/query-params'
 import type { UrlConfig } from '@stephenchenorg/astro/query-params'
+import { queryParamsUrl } from '@stephenchenorg/astro/query-params'
 
 interface Props {
   value: number[]
