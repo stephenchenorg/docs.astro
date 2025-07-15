@@ -80,7 +80,8 @@ interface PageField {
 
 ```astro
 ---
-import { PageFieldRender, pageTextField } from '@stephenchenorg/astro/page'
+import { pageTextField } from '@stephenchenorg/astro/page'
+import PageFieldRender from '@stephenchenorg/astro/page/components/PageFieldRender.astro'
 ---
 
 <Layout meta={data.page} companySetting={data.companySetting}>

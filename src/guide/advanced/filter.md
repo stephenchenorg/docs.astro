@@ -10,7 +10,8 @@
 
 ```astro
 ---
-import { createUrlConfig, ProvideUrlConfig } from '@stephenchenorg/astro/query-params'
+import { createUrlConfig } from '@stephenchenorg/astro/query-params'
+import ProvideUrlConfig from '@stephenchenorg/astro/query-params/components/ProvideUrlConfig.astro'
 
 const urlConfig = createUrlConfig({
   baseUrl: Astro.url.pathname,

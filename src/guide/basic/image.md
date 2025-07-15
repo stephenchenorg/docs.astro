@@ -30,7 +30,9 @@ GraphQL 後端欄位都有不同的類型定義，需要依照查詢的欄位來
 ```astro {3-4,8-10,17-25,28-30,35-38}
 ---
 import { gql, graphQLAPI } from '@/api'
-import { imageFields, Image, ResponsiveImage } from '@stephenchenorg/astro/image'
+import { imageFields } from '@stephenchenorg/astro/image'
+import Image from '@stephenchenorg/astro/image/components/Image.astro'
+import ResponsiveImage from '@stephenchenorg/astro/image/components/ResponsiveImage.astro'
 import type { ImageSource } from '@stephenchenorg/astro/image'
 
 interface Data extends DataCompanySetting {

@@ -13,7 +13,8 @@
 ```ts
 import Layout from '@/layouts/Layout.astro'
 import { gql, graphQLAPI } from '@/api'
-import { imageFields, coverFields, backgroundFields, ResponsiveImage } from '@stephenchenorg/astro/image'
+import { imageFields, coverFields, backgroundFields } from '@stephenchenorg/astro/image'
+import ResponsiveImage from '@stephenchenorg/astro/image/components/ResponsiveImage.astro'
 import type { ImageSource } from '@stephenchenorg/astro/image'
 import { seoMeta, seoMetaFields } from '@stephenchenorg/astro/page'
 import type { PageMeta } from '@stephenchenorg/astro/page'

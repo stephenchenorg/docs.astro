@@ -98,7 +98,7 @@ const {
 ```ts
 import Layout from '@/layouts/Layout.astro'
 import Pagination from '@/components/Pagination.vue'
-import { ResponsiveImage } from '@stephenchenorg/astro/image'
+import ResponsiveImage from '@stephenchenorg/astro/image/components/ResponsiveImage.astro'
 import type { ImageSource } from '@stephenchenorg/astro/image'
 import type { Paginator } from '@stephenchenorg/astro/pagination'
 import { formatDate } from '@/utils/date'
