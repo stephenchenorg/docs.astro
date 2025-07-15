@@ -3,7 +3,7 @@
 介紹如何在 Astro 中使用 `@stephenchenorg/astro/product-sku` 模組來建立商品 SKU (庫存單位) 功能。
 
 ::: tip
-商品多規格選擇器功能在 `@stephenchenorg/astro` v5.0 版本開始才支援，請確保已將套件版本已更新到 v4.0 或以上。
+商品多規格選擇器功能在 `@stephenchenorg/astro` v5.0 版本開始才支援，請確保已將套件版本已更新到 v5.0 或以上。
 :::
 
 ## 商品 SKU 需要的參數
