@@ -224,9 +224,8 @@ function handleSubmit(event: Event) {
 </template>
 
 <script setup lang="ts">
-import type { FormErrors } from '@stephenchenorg/astro/form-validator'
-import type { FormValidatorProviderExposed } from '@stephenchenorg/astro/form-validator/components/FormValidatorProvider'
-import FormValidatorProvider from '@stephenchenorg/astro/form-validator/components/FormValidatorProvider'
+import type { FormErrors, FormValidatorProviderExposed } from '@stephenchenorg/astro/form-validator'
+import FormValidatorProvider from '@stephenchenorg/astro/form-validator'
 import { reactive, useTemplateRef } from 'vue'
 
 const formValidatorProvider = useTemplateRef<FormValidatorProviderExposed>('formValidatorProvider')
