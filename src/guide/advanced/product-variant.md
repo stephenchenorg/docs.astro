@@ -89,6 +89,9 @@ function updateProductVariantOption(attributeId: number, attributeLabel: string,
   // 設定選項值，並根據選中的選項，更新對應的商品規格
   variantSelector.selectVariant(attributeId, optionId, attributeLabel)
 
+  // 還沒選擇完所有屬性...
+  if (!variantSelector.areAllAttributesSelected()) return
+
   // 如果有選擇到商品規格，則更新價格和庫存
   if (variantSelector.currentVariant) {
     product.value.selling_price = variantSelector.currentVariant.selling_price
@@ -98,7 +101,7 @@ function updateProductVariantOption(attributeId: number, attributeLabel: string,
     // 如果沒有商品規格，恢復原始價格和庫存
     product.value.selling_price = originalPrice
     product.value.listing_price = originalOldPrice
-    productStock.value = originalStock
+    productStock.value = 0
   }
 }
 ```
