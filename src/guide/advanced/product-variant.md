@@ -81,9 +81,12 @@ const variantSelector = new ProductVariantSelector({
 </template>
 ```
 
-最後是處理商品規格選擇的事件。當用戶選擇不同的規格時，更新商品的價格和庫存：
+然後是處理商品規格選擇的事件。當用戶選擇不同的規格時，更新商品的價格和庫存：
 
-```ts
+```vue
+<script setup lang="ts">
+...
+
 // 處理商品規格選擇
 function updateProductVariantOption(attributeId: number, attributeLabel: string, optionId: number) {
   // 設定選項值，並根據選中的選項，更新對應的商品規格
@@ -104,4 +107,35 @@ function updateProductVariantOption(attributeId: number, attributeLabel: string,
     productStock.value = 0
   }
 }
+</script>
+```
+
+最後是加入購物車的處理函式，確保用戶已選擇所有規格並且庫存足夠：
+
+```vue
+<script setup lang="ts">
+...
+
+function handleAddToCart() {
+  if (!variantSelector.areAllAttributesSelected()) {
+    showMessage('info', '請先選擇商品規格')
+    return
+  }
+  if (!variantSelector.isValidVariantSelected() || !variantSelector.currentVariant) {
+    showMessage('info', '商品規格不存在或已售罄')
+    return
+  }
+  const specificationAddedQuantity = cart.value.find(item =>
+    item.specificationId === variantSelector.currentVariant!.id
+  )?.quantity || 0
+  if (!variantSelector.hasEnoughStock(specificationAddedQuantity + quantity.value)) {
+    showMessage('info', '庫存不足，無法加入購物車')
+    return
+  }
+
+  // add to cart...
+
+  showMessage('success', '商品已加入購物車')
+}
+</script>
 ```
