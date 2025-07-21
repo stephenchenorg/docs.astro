@@ -1,51 +1,38 @@
 # 商品多規格選擇器
 
-介紹如何在 Astro 中使用 `@stephenchenorg/astro/product-sku` 模組來建立商品 SKU (庫存單位) 功能。
+介紹如何在 Astro 中建立商品多規格選擇器功能。
 
-::: tip
-商品多規格選擇器功能在 `@stephenchenorg/astro` v5.0 版本開始才支援，請確保已將套件版本已更新到 v5.0 或以上。
-:::
+## 需要的參數
 
-## 商品 SKU 需要的參數
+在建立商品多規格選擇器時，需要確保商品物件中提供以下參數：
 
-在使用 `ProductvariantSelector` 時，需要提供以下參數：
-
-* **availableVariants**: 商品的規格列表，例如不同顏色和尺寸的組合。
+* **specifications**: 商品的規格列表，例如不同顏色和尺寸的組合。
   * `id`：規格的唯一識別碼。
   * `combination_key`：規格的組合鍵，用於從屬性中生成唯一的組合，規則為使用規格屬性選項 ID 連接而成的字串，將 ID 由小到大排序後連接，例如 `1-2-3`。
   * `listing_price`：商品的原價。
   * `selling_price`：商品的售價。
   * `inventory`：商品的庫存數量。
-* **variantAttributes**: 商品的屬性列表，例如顏色、尺寸等。
+* **attributes**: 商品的屬性列表，例如顏色、尺寸等。
   * `id`：屬性的唯一識別碼。
   * `title`：屬性的名稱，例如「顏色」或「尺寸」。
-  * `options`：屬性的選項列表，例如「紅色」、「藍色」、「小」、「中」、「大」等。
+  * `items`：屬性的選項列表，例如「紅色」、「藍色」、「小」、「中」、「大」等。
     * `id`：選項的唯一識別碼。
     * `title`：選項的名稱。
+    * `product_attribute_id`：選項所屬屬性的 ID。
 
-## 商品 SKU 規格選擇器範例
+## 商品多規格選擇器範例
 
-先初始化商品多規格選擇器，並將商品的規格列表和屬性列表傳入：
+先初始化商品規格相關變數：
 
 ```vue
 <script setup lang="ts">
-import { ProductVariantSelector } from '@stephenchenorg/astro/product-variant'
+import type { ProductSpecification } from '@/types'
 
-// 初始化商品多規格選擇器
-const variantSelector = new ProductVariantSelector({
-  availableVariants: props.product.specifications.map(spec => ({
-    id: spec.id,
-    combination_key: spec.combination_key,
-    listing_price: Number(spec.listing_price),
-    selling_price: Number(spec.selling_price),
-    inventory: spec.inventory,
-  })),
-  variantAttributes: props.product.attributes.map(attr => ({
-    id: attr.id,
-    title: attr.title,
-    options: attr.items.slice(),
-  })),
-})
+// 使用者已選擇的屬性值 { [attributeId]: [itemId] }
+const selectedAttributes = ref<Record<number, number>>({})
+
+// 匹配到的商品規格物件
+const selectedSpecification = shallowRef(undefined) as ShallowRef<ProductSpecification | undefined>
 </script>
 ```
 
@@ -54,26 +41,25 @@ const variantSelector = new ProductVariantSelector({
 ```vue
 <template>
   <div
-    v-for="attribute in variantSelector.variantAttributes"
+    v-for="attribute in product.attributes"
     :key="attribute.id"
     class="flex items-center space-x-4"
   >
     <span>{{ attribute.title }}</span>
     <ul class="flex flex-wrap gap-2">
-      <li v-for="option in attribute.options" :key="option.id">
+      <li v-for="item in attribute.items" :key="item.id">
         <input
-          :id="`sku-${attribute.id}-${option.id}`"
+          :id="`sku-${attribute.id}-item-${item.id}`"
+          v-model="selectedAttributes[attribute.id]"
           type="radio"
-          :name="`sku-${attribute.id}`"
-          :value="option.id"
           class="hidden peer"
-          @change="updateProductVariantOption(attribute.id, attribute.title, option.id)"
+          :value="item.id"
         >
         <label
-          :for="`sku-${attribute.id}-${option.id}`"
+          :for="`sku-${attribute.id}-item-${item.id}`"
           class="px-2 py-1 text-gray-500 tracking-wide border border-gray-300 rounded-md cursor-pointer select-none peer-checked:bg-blue-500 peer-checked:text-white peer-checked:border-blue-500"
         >
-          {{ option.title }}
+          {{ item.title }}
         </label>
       </li>
     </ul>
@@ -87,25 +73,35 @@ const variantSelector = new ProductVariantSelector({
 <script setup lang="ts">
 ...
 
-// 處理商品規格選擇
-function updateProductVariantOption(attributeId: number, attributeLabel: string, optionId: number) {
-  // 設定選項值，並根據選中的選項，更新對應的商品規格
-  variantSelector.selectVariant(attributeId, optionId, attributeLabel)
+// 更新商品規格時，重新計算價格和庫存
+watch(selectedAttributes, () => {
+  updateSelectedProductSpecification()
 
-  // 還沒選擇完所有屬性...
-  if (!variantSelector.areAllAttributesSelected()) return
+  // 確認是否已選擇所有商品規格選項...
+  if (Object.keys(selectedAttributes.value).length !== product.value.attributes.length) return
 
   // 如果有選擇到商品規格，則更新價格和庫存
-  if (variantSelector.currentVariant) {
-    product.value.selling_price = variantSelector.currentVariant.selling_price
-    product.value.listing_price = variantSelector.currentVariant.listing_price
-    productStock.value = variantSelector.currentVariant.inventory
+  if (selectedSpecification.value) {
+    product.value.selling_price = selectedSpecification.value.selling_price
+    product.value.listing_price = selectedSpecification.value.listing_price
+    productStock.value = selectedSpecification.value.inventory
   } else {
     // 如果沒有商品規格，恢復原始價格和庫存
     product.value.selling_price = originalPrice
     product.value.listing_price = originalOldPrice
     productStock.value = 0
   }
+}, { deep: true })
+
+// 更新商品規格
+function updateSelectedProductSpecification() {
+  // 由選項組裝出商品規格 Key
+  const combinationKey = Object.values(selectedAttributes.value)
+    .sort((a, b) => a - b)
+    .join('-')
+
+  // 尋找符合的商品規格
+  selectedSpecification.value = product.value.specifications.find(spec => spec.combination_key === combinationKey)
 }
 </script>
 ```
@@ -117,25 +113,109 @@ function updateProductVariantOption(attributeId: number, attributeLabel: string,
 ...
 
 function handleAddToCart() {
-  if (!variantSelector.areAllAttributesSelected()) {
-    showMessage('info', '請先選擇商品規格')
+  if (Object.keys(selectedAttributes.value).length !== product.value.attributes.length) {
+    alert('請先選擇商品規格')
     return
   }
-  if (!variantSelector.isValidVariantSelected() || !variantSelector.currentVariant) {
-    showMessage('info', '商品規格不存在或已售罄')
-    return
-  }
-  const specificationAddedQuantity = cart.value.find(item =>
-    item.specificationId === variantSelector.currentVariant!.id
-  )?.quantity || 0
-  if (!variantSelector.hasEnoughStock(specificationAddedQuantity + quantity.value)) {
-    showMessage('info', '庫存不足，無法加入購物車')
+  if (!selectedSpecification.value || selectedSpecification.value.inventory <= 0) {
+    alert('商品規格不存在或庫存不足')
     return
   }
 
   // add to cart...
 
   showMessage('success', '商品已加入購物車')
+}
+</script>
+```
+
+## 購物車多規格選擇器下拉選單範例
+
+在購物車中，需要設計一個下拉選單來選擇商品的規格。先初始化商品規格相關變數：
+
+```vue
+<script setup lang="ts">
+import type { ProductSpecification } from '@/types'
+
+const open = ref(false)
+
+// 使用者已選擇的屬性值 { [attributeId]: [itemId] }
+const selectedAttributes = ref<Record<number, number>>({})
+
+// 匹配到的商品規格物件
+const selectedSpecification = shallowRef(undefined) as ShallowRef<ProductSpecification | undefined>
+</script>
+```
+
+然後在模板中加入下拉選單的 UI：
+
+```vue
+<template>
+  <button type="button" @click="open = !open">
+    <span>規格：{{ selectedSpecification.title }}</span>
+  </button>
+
+  <div v-if="open">
+    <dl class="space-y-3">
+      <div v-for="attribute in availableAttributes" :key="attribute.title">
+        <dt>{{ attribute.title }}：</dt>
+        <dd
+          v-for="item in attribute.items"
+          :key="item.id"
+          class="flex items-center"
+        >
+          <input
+            :id="`cart-sku-${attribute.id}-item-${item.id}`"
+            v-model="selectedAttributes[attribute.id]"
+            type="radio"
+            class="hidden peer"
+            :value="item.id"
+          />
+          <label
+            :for="`cart-sku-${attribute.id}-item-${item.id}`"
+            class="px-2 py-1 text-gray-500 tracking-wide border border-gray-300 cursor-pointer select-none peer-checked:bg-blue-500 peer-checked:text-white peer-checked:border-blue-500"
+          >
+            {{ item.title }}
+          </label>
+        </dd>
+      </div>
+    </dl>
+  </div>
+</template>
+```
+
+接著是處理下拉選單開啟時的事件，初始化已選擇的屬性值：
+
+```vue
+<script setup lang="ts">
+...
+
+// 當開啟下拉選單時，初始化已選擇的屬性值
+watch(open, open => {
+  if (open) {
+    selectedAttributes.value = props.selectedAttributeItems.reduce<Record<number, number>>((acc, item) => {
+      acc[item.product_attribute_id] = item.id
+      return acc
+    }, {})
+
+    updateSelectedProductSpecification()
+  }
+})
+
+// 當選擇的屬性值改變時，更新商品規格
+watch(selectedAttributes, () => {
+  updateSelectedProductSpecification()
+}, { deep: true })
+
+// 更新商品規格
+function updateSelectedProductSpecification() {
+  // 由選項組裝出商品規格 Key
+  const combinationKey = Object.values(selectedAttributes.value)
+    .sort((a, b) => a - b)
+    .join('-')
+
+  // 尋找符合的商品規格
+  selectedSpecification.value = props.availableSpecifications.find(spec => spec.combination_key === combinationKey)
 }
 </script>
 ```
