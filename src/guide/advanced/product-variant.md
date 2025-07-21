@@ -27,12 +27,27 @@
 ```vue
 <script setup lang="ts">
 import type { ProductSpecification } from '@/types'
+import { computed, ref, shallowRef, watch } from 'vue'
 
 // 使用者已選擇的屬性值 { [attributeId]: [itemId] }
 const selectedAttributes = ref<Record<number, number>>({})
 
 // 匹配到的商品規格物件
 const selectedSpecification = shallowRef(undefined) as ShallowRef<ProductSpecification | undefined>
+
+// 可以點選的商品屬性
+const enabledAttributeItems = computed<number[]>(() => {
+  return product.value.attributes.flatMap(attribute => {
+    return attribute.items
+      .filter(item => {
+        return product.value.specifications.some(spec =>
+          (spec.combination_key?.split('-') || []).includes(item.id.toString()) &&
+          spec.inventory > 0
+        )
+      })
+      .map(item => item.id)
+  })
+})
 </script>
 ```
 
@@ -54,10 +69,11 @@ const selectedSpecification = shallowRef(undefined) as ShallowRef<ProductSpecifi
           type="radio"
           class="hidden peer"
           :value="item.id"
+          :disabled="!enabledAttributeItems.includes(item.id)"
         >
         <label
           :for="`sku-${attribute.id}-item-${item.id}`"
-          class="px-2 py-1 text-gray-500 tracking-wide border border-gray-300 rounded-md cursor-pointer select-none peer-checked:bg-blue-500 peer-checked:text-white peer-checked:border-blue-500"
+          class="px-2 py-1 text-gray-500 tracking-wide border border-gray-300 cursor-pointer select-none peer-checked:bg-primary-500 peer-checked:text-white peer-checked:border-primary-500 peer-disabled:bg-gray-100 peer-disabled:text-gray-300 peer-disabled:border-gray-300 peer-disabled:cursor-default"
         >
           {{ item.title }}
         </label>
@@ -136,6 +152,7 @@ function handleAddToCart() {
 ```vue
 <script setup lang="ts">
 import type { ProductSpecification } from '@/types'
+import { computed, ref, shallowRef, watch } from 'vue'
 
 const open = ref(false)
 
@@ -144,6 +161,20 @@ const selectedAttributes = ref<Record<number, number>>({})
 
 // 匹配到的商品規格物件
 const selectedSpecification = shallowRef(undefined) as ShallowRef<ProductSpecification | undefined>
+
+// 可以點選的商品屬性
+const enabledAttributeItems = computed<number[]>(() => {
+  return props.availableAttributes.flatMap(attribute => {
+    return attribute.items
+      .filter(item => {
+        return props.availableSpecifications.some(spec =>
+          (spec.combination_key?.split('-') || []).includes(item.id.toString()) &&
+          spec.inventory > 0
+        )
+      })
+      .map(item => item.id)
+  })
+})
 </script>
 ```
 
@@ -170,10 +201,11 @@ const selectedSpecification = shallowRef(undefined) as ShallowRef<ProductSpecifi
             type="radio"
             class="hidden peer"
             :value="item.id"
+            :disabled="!enabledAttributeItems.includes(item.id)"
           />
           <label
             :for="`cart-sku-${attribute.id}-item-${item.id}`"
-            class="px-2 py-1 text-gray-500 tracking-wide border border-gray-300 cursor-pointer select-none peer-checked:bg-blue-500 peer-checked:text-white peer-checked:border-blue-500"
+            class="px-2 py-1 text-gray-500 tracking-wide border border-gray-300 cursor-pointer select-none peer-checked:bg-primary-500 peer-checked:text-white peer-checked:border-primary-500 peer-disabled:bg-gray-100 peer-disabled:text-gray-300 peer-disabled:border-gray-300 peer-disabled:cursor-default"
           >
             {{ item.title }}
           </label>
