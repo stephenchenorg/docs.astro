@@ -322,10 +322,10 @@ export const PUT: APIRoute = async context => {
       }
     }
 
-    console.error(e)
+    console.error(e, (e as FetchError).data)
 
     return new Response(JSON.stringify({
-      message: e,
+      message: 'server error',
     }), {
       status: 500,
       headers: { 'Content-Type': 'application/json' },
