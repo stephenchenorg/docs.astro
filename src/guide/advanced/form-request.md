@@ -2,7 +2,13 @@
 
 介紹如何處理提交表單，並透過 Fetch API 來發送表單資料到後端 API。
 
-## HTML 表單請求
+目前可以使用三種方式來提交表單：
+
+- [Astro Form Post 表單請求](#astro-form-post-表單請求)
+- [Vue Form Post 表單請求](#vue-form-post-表單請求)
+- [AJAX 表單請求](#ajax-表單請求)
+
+## Astro Form Post 表單請求
 
 在 Astro 中提交表單可以使用 HTML 的 `<form>` 元素來發送資料，這裡會介紹如何處理表單提交、驗證以及錯誤處理。
 
@@ -70,7 +76,7 @@ contactForm.addEventListener('submit', function (e) {
 
 HTTP 狀態主要處理 200、422、500 三種狀況，分別代表成功、表單驗證錯誤、伺服器錯誤，其中最關鍵的是 422 狀態，需要將後端的表單欄位錯誤訊息顯示出來。
 
-### Astro API 路由
+### Astro 接收 Form Post API 路由
 
 現在就可以在 `src/pages/api/contact.ts` 新增一個 POST 的路由，接收到剛才的表單資料後，再透過 Fetch API 來發送到後端 API，而這邊打的 API 就會是真正的後端。
 
@@ -158,6 +164,8 @@ export const POST: APIRoute = async ({ request }) => {
 
 而之所以要多開一個 API 路由的原因，一方面是為了保護後端 API 的安全，另一方面是為了避免 CORS 問題。
 
+## Vue Form Post 表單請求
+
 ### Vue 中的表單提交
 
 在 Vue 中使用表單驗證和提交，可以使用 `@stephenchenorg/astro/form-validator` 這個套件來處理表單驗證。如果驗證成功，就會提交表單到後端 API。
@@ -206,6 +214,67 @@ function handleSubmit(event: Event) {
 </script>
 ```
 
+### Astro 接收 Vue 的 Form Post API 路由
+
+```ts
+import type { APIRoute } from 'astro'
+import type { ApiResponse, PostComment } from '@/types'
+import { FetchError } from 'ofetch'
+import { apiFetch } from '@/api/backend'
+import { getSession } from '@/sessions'
+
+export const GET: APIRoute = async context => {
+  const { request, redirect, cookies } = context
+
+  const formData = await request.formData()
+
+  try {
+    await apiFetch<ApiResponse<any>>('/api/v1/contacts', {
+      method: 'POST',
+      body: {
+        name: formData.get('name'),
+        email: formData.get('email'),
+        title: formData.get('subject'),
+        content: formData.get('message'),
+        files: [formData.get('file') as File | null].filter(Boolean),
+      },
+      Astro: context,
+    })
+
+    session.flash.messages = [
+      { type: 'success', text: '您的訊息已成功送出，我們會儘快回覆您。' },
+    ]
+
+    return redirect('/contact')
+  } catch (e) {
+    const session = getSession(cookies)
+
+    session.flash.old = {
+      name: formData.get('name') || '',
+      email: formData.get('email') || '',
+      subject: formData.get('subject') || '',
+      message: formData.get('message') || '',
+    }
+
+    if (e instanceof FetchError) {
+      if (e.status === 422) {
+        session.flash.errors = { ...e.data?.data }
+
+        return redirect('/contact')
+      }
+    }
+
+    console.error(e, (e as FetchError).data)
+
+    session.flash.messages = [
+      { type: 'error', text: '伺服器錯誤，請稍後再試' },
+    ]
+
+    return redirect('/contact')
+  }
+}
+```
+
 ## AJAX 表單請求
 
 在 Vue 中使用 AJAX 提交表單，可以使用 `fetch` API 來發送表單資料到後端 API，並處理回應。
@@ -241,6 +310,7 @@ async function handleSubmit(event: Event) {
   const formValidator = formValidatorProvider.value!.formValidator()
   if (!formValidator.validate(form)) {
     event.preventDefault()
+    return
   }
 
   try {
