@@ -25,9 +25,9 @@ import Layout from '@/layouts/Layout.astro'
 
 ## 串接 API
 
-`meta` 串接 API 的方式可以參考 [SEO Metadata](seo.md) 和 [客製頁面](../advanced/custom-page.md) 的說明。
+`meta` 串接 API 的方式可以參考 [SEO Metadata](../graphql/seo.md) 和 [客製頁面](../graphql/custom-page.md) 的說明。
 
-`companySetting` 串接 API 的方式在上篇 [GraphQL](graphql.md) 中已經有說明過了。
+`companySetting` 串接 API 的方式在 [GraphQL 基本](../graphql/basic.md) 中有說明。
 
 ## 靜態資料
 

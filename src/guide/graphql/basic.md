@@ -1,4 +1,4 @@
-# GraphQL
+# GraphQL 基本
 
 Stephenchenorg 使用 GraphQL 來串接 API，接下來將會介紹具體的使用方式。
 

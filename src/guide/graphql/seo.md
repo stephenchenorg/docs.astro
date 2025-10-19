@@ -1,4 +1,4 @@
-# SEO Metadata
+# GraphQL SEO Metadata
 
 介紹分別如何使用靜態設定，或根據頁面 Model 資料注入 SEO Metadata。在 `<Layout>` 元件中將會插入對應的 Metadata。
 
