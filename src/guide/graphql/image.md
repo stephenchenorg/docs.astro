@@ -27,13 +27,13 @@ GraphQL 後端欄位都有不同的類型定義，需要依照查詢的欄位來
 
 以下是一個使用 Image 圖片的範例：
 
-```astro {3-4,8-10,17-25,28-30,35-38}
+```astro {2,4-6,10-12,19-27,30-32,37-40}
 ---
-import type { ImageSource } from '@stephenchenorg/astro/image'
+import type { ImageSource } from '@stephenchenorg/astro-graphql/image'
 import { gql, graphQLAPI } from '@/api'
-import { imageFields } from '@stephenchenorg/astro/image'
-import Image from '@stephenchenorg/astro/image/components/Image.astro'
-import ResponsiveImage from '@stephenchenorg/astro/image/components/ResponsiveImage.astro'
+import { imageFields } from '@stephenchenorg/astro-graphql/image'
+import Image from '@stephenchenorg/astro-graphql/image/components/Image.astro'
+import ResponsiveImage from '@stephenchenorg/astro-graphql/image/components/ResponsiveImage.astro'
 
 interface Data extends DataCompanySetting {
   product: {

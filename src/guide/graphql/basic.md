@@ -56,7 +56,7 @@ import { gql, graphQLAPI } from '@/api'
 
 // 1. 引入公司設定的 Fragment 和型別
 import type { DataCompanySetting } from '@stephenchenorg/astro/company-setting'
-import { companySettingFields } from '@stephenchenorg/astro/company-setting'
+import { companySettingFields } from '@stephenchenorg/astro-graphql/company-setting'
 
 interface Data extends DataCompanySetting {
   //
@@ -85,7 +85,7 @@ const data = await graphQLAPI<Data>(gql`
 這裡需要注意命名規則上有所不同，`${companySettingFields}` 是一個 JavaScript 變數，開頭使用小寫，而 `...CompanySettingFields` 是一個 GraphQL Fragment，開頭使用大寫。
 
 ::: details CompanySettingFields Fragment 定義
-CompanySettingFields Fragment 定義在 `@stephenchenorg/astro` 套件的 `src/company-setting/fragments.ts`：
+CompanySettingFields Fragment 定義在 `@stephenchenorg/astro-graphql` 套件的 `src/company-setting/fragments.ts`：
 
 ```ts
 import { gql } from 'graphql-tag'
@@ -122,7 +122,7 @@ import type { DataCompanySetting } from '@stephenchenorg/astro/company-setting'
 import Layout from '@/layouts/Layout.astro'
 import { gql, graphQLAPI } from '@/api'
 import { seoMeta } from '@stephenchenorg/astro/page'
-import { companySettingFields } from '@stephenchenorg/astro/company-setting'
+import { companySettingFields } from '@stephenchenorg/astro-graphql/company-setting'
 
 interface Data extends DataCompanySetting {
   //

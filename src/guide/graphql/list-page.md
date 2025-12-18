@@ -17,11 +17,11 @@
 現在新增一個 `src/pages/artists/index.astro` 來取得分頁列表資料：
 
 ```ts
-import type { ImageSource } from '@stephenchenorg/astro/image'
+import type { ImageSource } from '@stephenchenorg/astro-graphql/image'
 import type { Paginator } from '@stephenchenorg/astro/pagination'
 import Layout from '@/layouts/Layout.astro'
 import Pagination from '@/components/Pagination.vue'
-import ResponsiveImage from '@stephenchenorg/astro/image/components/ResponsiveImage.astro'
+import ResponsiveImage from '@stephenchenorg/astro-graphql/image/components/ResponsiveImage.astro'
 import { formatDate } from '@/utils/date'
 
 interface Data extends DataCompanySetting {

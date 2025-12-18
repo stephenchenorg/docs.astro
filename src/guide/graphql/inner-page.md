@@ -11,16 +11,17 @@
 現在新增一個 `src/pages/artists/[slug].astro` 來取得內頁資料：
 
 ```ts
-import type { ImageSource } from '@stephenchenorg/astro/image'
+import type { ImageSource } from '@stephenchenorg/astro-graphql/image'
 import type { PageMeta } from '@stephenchenorg/astro/page'
 import type { DataCompanySetting } from '@stephenchenorg/astro/company-setting'
 import type { Paginator } from '@stephenchenorg/astro/pagination'
 import Layout from '@/layouts/Layout.astro'
 import { gql, graphQLAPI } from '@/api'
-import { imageFields, coverFields, backgroundFields } from '@stephenchenorg/astro/image'
-import ResponsiveImage from '@stephenchenorg/astro/image/components/ResponsiveImage.astro'
-import { seoMeta, seoMetaFields } from '@stephenchenorg/astro/page'
-import { companySettingFields } from '@stephenchenorg/astro/company-setting'
+import { imageFields, coverFields, backgroundFields } from '@stephenchenorg/astro-graphql/image'
+import ResponsiveImage from '@stephenchenorg/astro-graphql/image/components/ResponsiveImage.astro'
+import { seoMeta } from '@stephenchenorg/astro/page'
+import { seoMetaFields } from '@stephenchenorg/astro-graphql/page'
+import { companySettingFields } from '@stephenchenorg/astro-graphql/company-setting'
 import { formatDate } from '@/utils/date'
 
 interface Data extends DataCompanySetting {

@@ -39,7 +39,7 @@ import Layout from '@/layouts/Layout.astro'
 // import { gql, graphQLAPI } from '@/api'
 import { seoMeta } from '@stephenchenorg/astro/page'
 import { createCompanySetting } from '@stephenchenorg/astro/company-setting'
-// import { companySettingFields } from '@stephenchenorg/astro/company-setting'
+// import { companySettingFields } from '@stephenchenorg/astro-graphql/company-setting'
 
 // interface Data extends DataCompanySetting {
 //   //

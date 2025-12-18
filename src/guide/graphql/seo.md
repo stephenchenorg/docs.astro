@@ -37,7 +37,7 @@ const meta = seoMeta({
 可以透過 `${seoMetaFields('Post')}` 來產生 `post` 對應的 Fragment，然後就可以用 `...PostSeoMetaFields` 來帶入文章的 SEO Metadata 欄位，型別的部分需要增加 `PageMeta` 介面。
 
 ::: details seoMetaFields Fragment 定義
-seoMetaFields Fragment 定義在 `@stephenchenorg/astro` 套件的 `src/page/seo-meta/fragments.ts`：
+seoMetaFields Fragment 定義在 `@stephenchenorg/astro-graphql` 套件的 `src/page/seo-meta/fragments.ts`：
 
 ```ts
 import { gql } from 'graphql-tag'
@@ -65,16 +65,17 @@ export const seoMetaFields = (dummyClass: string) => gql(`
 
 下面是完整的範例：
 
-```astro {6-7,12,27,34,38-42,45}
+```astro {3,9,13,28,35,39-43,46}
 ---
-import type { ImageSource } from '@stephenchenorg/astro/image'
+import type { ImageSource } from '@stephenchenorg/astro-graphql/image'
 import type { PageMeta } from '@stephenchenorg/astro/page'
 import type { DataCompanySetting } from '@stephenchenorg/astro/company-setting'
 import Layout from '@/layouts/Layout.astro'
 import { gql, graphQLAPI } from '@/api'
-import { imageFields } from '@stephenchenorg/astro/image'
+import { imageFields } from '@stephenchenorg/astro-graphql/image'
 import { seoMeta } from '@stephenchenorg/astro/page'
-import { companySettingFields } from '@stephenchenorg/astro/company-setting'
+import { seoMetaFields } from '@stephenchenorg/astro-graphql/page'
+import { companySettingFields } from '@stephenchenorg/astro-graphql/company-setting'
 
 interface Data extends DataCompanySetting {
   post: PageMeta & {

@@ -10,13 +10,13 @@
 
 ```astro
 ---
-import type { DataPage } from '@stephenchenorg/astro/page'
+import type { DataPage } from '@stephenchenorg/astro-graphql/page'
 import type { DataCompanySetting } from '@stephenchenorg/astro/company-setting'
 import Layout from '@/layouts/Layout.astro'
 import { gql, graphQLAPI } from '@/api'
-import { imageFields } from '@stephenchenorg/astro/image'
-import { pageFields } from '@stephenchenorg/astro/page'
-import { companySettingFields } from '@stephenchenorg/astro/company-setting'
+import { imageFields } from '@stephenchenorg/astro-graphql/image'
+import { pageFields } from '@stephenchenorg/astro-graphql/page'
+import { companySettingFields } from '@stephenchenorg/astro-graphql/company-setting'
 
 interface Data extends DataPage, DataCompanySetting {
   //
@@ -80,8 +80,8 @@ interface PageField {
 
 ```astro
 ---
-import { pageTextField } from '@stephenchenorg/astro/page'
-import PageFieldRender from '@stephenchenorg/astro/page/components/PageFieldRender.astro'
+import { pageTextField } from '@stephenchenorg/astro-graphql/page'
+import PageFieldRender from '@stephenchenorg/astro-graphql/page/components/PageFieldRender.astro'
 ---
 
 <Layout meta={data.page} companySetting={data.companySetting}>
